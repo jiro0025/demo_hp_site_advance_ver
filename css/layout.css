@@ -215,24 +215,22 @@
   }
 
   .nav-list {
+    display: none;
     position: fixed;
     top: 64px;
     left: 0;
     right: 0;
+    z-index: 99;
     background-color: var(--color-base);
     border-bottom: 1px solid var(--color-border);
     flex-direction: column;
     gap: 0;
     padding: var(--space-4) 0;
-    transform: translateY(-110%);
-    visibility: hidden;
-    overflow: hidden;
-    transition: transform var(--transition-normal), visibility var(--transition-normal);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   }
 
   .nav-list.open {
-    transform: translateY(0);
-    visibility: visible;
+    display: flex;
   }
 
   .nav-list a {

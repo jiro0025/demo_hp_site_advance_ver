@@ -237,6 +237,16 @@
     padding: var(--space-4) var(--content-padding);
     width: 100%;
     font-size: var(--font-size-base);
+    text-align: center;
+  }
+
+  .nav-list a::after {
+    display: none;
+  }
+
+  .nav-list a.active {
+    font-weight: var(--font-weight-bold);
+    color: var(--color-accent);
   }
 
   .footer-inner {

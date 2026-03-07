@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About — Data & Canvas</title>
+  <meta name="description" content="プロフィール・スキルセット・興味分野について紹介します。">
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/pages/about.css">
+</head>
+<body>
+
+  <!-- ===== Header ===== -->
+  <header class="site-header">
+    <div class="container">
+      <a href="index.html" class="site-logo">Data <span>&</span> Canvas</a>
+      <button class="nav-toggle" id="nav-toggle" aria-label="メニューを開く" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <nav aria-label="メインナビゲーション">
+        <ul class="nav-list" id="nav-list">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="projects.html">Projects</a></li>
+          <li><a href="journal.html">Journal</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ===== Page Hero ===== -->
+  <div class="about-hero">
+    <div class="container">
+      <span class="section-label">Profile</span>
+      <h1 style="font-size: clamp(2rem, 5vw, 2.75rem); margin-bottom: var(--space-4);">About</h1>
+      <p style="color: var(--color-sub); font-size: var(--font-size-md); max-width: 520px;">
+        テクノロジーと日々の生活を掛け合わせながら、データと表現で新しい価値を探っています。
+      </p>
+    </div>
+  </div>
+
+  <!-- ===== About Content ===== -->
+  <section class="about-section">
+    <div class="container">
+      <div class="about-inner">
+
+        <!-- Portrait / Meta -->
+        <div class="about-portrait fade-in">
+          <img
+            class="about-portrait__img"
+            src="images/about_portrait.png"
+            alt="プロフィール写真"
+          >
+          <p class="about-portrait__name">Your Name</p>
+          <p class="about-portrait__role">Developer & Learner</p>
+        </div>
+
+        <!-- Text Content -->
+        <div class="about-content fade-in">
+          <h2>Hello, I'm ——</h2>
+          <p>
+            テクノロジー・自己研鑽・投資に興味を持つ個人開発者です。Python を中心に、データ分析や学習支援ツールの開発に取り組んでいます。
+          </p>
+          <p>
+            仕事の合間には作業に集中できるカフェを探し回り、そこでの気づきやアイデアを Journal にまとめています。マインドフルネスや習慣化にも関心があり、日常のあらゆる場面でデータと表現を掛け合わせることを楽しんでいます。
+          </p>
+          <p>
+            このサイト「Data & Canvas」は、そんな日々のアウトプットと制作物をまとめた個人の拠点です。
+          </p>
+
+          <h2>Skills</h2>
+          <div class="skill-grid">
+            <div class="skill-item">Python</div>
+            <div class="skill-item">Pandas / NumPy</div>
+            <div class="skill-item">Streamlit</div>
+            <div class="skill-item">HTML / CSS / JS</div>
+            <div class="skill-item">Git / GitHub</div>
+            <div class="skill-item">Google Antigravity</div>
+            <div class="skill-item">データ分析・可視化</div>
+            <div class="skill-item">自動化スクリプト</div>
+          </div>
+
+          <h2>Interests</h2>
+          <div class="interests-list">
+            <span class="tag">#Technology</span>
+            <span class="tag">#Investment</span>
+            <span class="tag">#English Learning</span>
+            <span class="tag">#Mindfulness</span>
+            <span class="tag">#Cafe Hopping</span>
+            <span class="tag">#Self Development</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Footer ===== -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-inner">
+        <div>
+          <p class="footer-logo">Data <span>&</span> Canvas</p>
+          <p class="footer-tagline">データと表現で、日常をデザインする。</p>
+        </div>
+        <nav class="footer-nav" aria-label="フッターナビゲーション">
+          <a href="index.html">Home</a>
+          <a href="projects.html">Projects</a>
+          <a href="journal.html">Journal</a>
+          <a href="about.html">About</a>
+          <a href="contact.html">Contact</a>
+        </nav>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-copyright">© 2026 Data & Canvas. All rights reserved.</p>
+        <div class="footer-sns">
+          <a href="#" aria-label="GitHub" target="_blank" rel="noopener">GitHub</a>
+          <a href="#" aria-label="X (Twitter)" target="_blank" rel="noopener">X</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/nav.js"></script>
+</body>
+</html>

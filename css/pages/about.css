@@ -1,0 +1,89 @@
+/* ============================
+   About Page — Data & Canvas
+   ============================ */
+
+.about-hero {
+  padding: var(--space-16) 0 var(--space-12);
+  background-color: var(--color-base-alt);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.about-section {
+  padding: var(--space-16) 0;
+}
+
+.about-inner {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: var(--space-16);
+  align-items: start;
+}
+
+.about-portrait {
+  position: sticky;
+  top: calc(64px + var(--space-8));
+}
+
+.about-portrait__img {
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: var(--radius-lg);
+  object-fit: cover;
+  background-color: var(--color-base-alt);
+  border: 1px solid var(--color-border);
+}
+
+.about-portrait__name {
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-bold);
+  margin-top: var(--space-5);
+  margin-bottom: var(--space-1);
+}
+
+.about-portrait__role {
+  font-size: var(--font-size-sm);
+  color: var(--color-accent);
+}
+
+.about-content h2 {
+  font-size: var(--font-size-lg);
+  margin-bottom: var(--space-4);
+  margin-top: var(--space-12);
+}
+
+.about-content h2:first-child {
+  margin-top: 0;
+}
+
+.about-content p {
+  color: var(--color-sub);
+  line-height: var(--line-height-loose);
+  margin-bottom: var(--space-4);
+}
+
+.interests-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-top: var(--space-4);
+}
+
+@media (max-width: 768px) {
+  .about-inner {
+    grid-template-columns: 1fr;
+  }
+
+  .about-portrait {
+    position: static;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: var(--space-6);
+  }
+
+  .about-portrait__img {
+    width: 100px;
+    height: 100px;
+    flex-shrink: 0;
+  }
+}

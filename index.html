@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Data & Canvas — Portfolio & Journal</title>
+  <meta name="description" content="開発・分析ツールのポートフォリオと日々の学習・ライフスタイルを発信するサイトです。">
+  <meta property="og:title" content="Data & Canvas">
+  <meta property="og:description" content="開発・分析ツールのポートフォリオと日々の学習・ライフスタイルを発信するサイトです。">
+  <meta property="og:type" content="website">
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/pages/home.css">
+</head>
+<body>
+
+  <!-- ===== Header ===== -->
+  <header class="site-header">
+    <div class="container">
+      <a href="index.html" class="site-logo">Data <span>&</span> Canvas</a>
+      <button class="nav-toggle" id="nav-toggle" aria-label="メニューを開く" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <nav aria-label="メインナビゲーション">
+        <ul class="nav-list" id="nav-list">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="projects.html">Projects</a></li>
+          <li><a href="journal.html">Journal</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ===== Hero ===== -->
+  <section class="hero" aria-label="ヒーロー">
+    <div class="hero__bg"></div>
+    <div class="hero__overlay"></div>
+    <div class="hero__noise"></div>
+    <div class="container">
+      <p class="hero__eyebrow">Portfolio & Journal</p>
+      <h1 class="hero__title">
+        データと表現で、<br>
+        <em>日常をデザインする。</em>
+      </h1>
+      <p class="hero__desc">
+        開発・分析・学習の記録と、作業カフェを巡る日々のアウトプットを発信しています。
+      </p>
+      <div class="hero__actions">
+        <a href="projects.html" class="btn btn-primary">Projects を見る</a>
+        <a href="journal.html" class="btn btn-outline">Journal を読む</a>
+      </div>
+    </div>
+    <div class="hero__scroll" aria-hidden="true">
+      <span>scroll</span>
+      <svg width="16" height="24" viewBox="0 0 16 24" fill="none">
+        <path d="M8 4v12M4 12l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- ===== Projects Pickup ===== -->
+  <section class="home-projects">
+    <div class="container">
+      <div class="section-heading fade-in">
+        <span class="section-label">Featured Works</span>
+        <h2 class="section-title">Projects</h2>
+      </div>
+      <div class="card-grid">
+        <!-- Card 1 -->
+        <article class="project-card fade-in">
+          <img
+            class="project-card__image"
+            src="images/project_stocks.png"
+            alt="株価分析ダッシュボード"
+            loading="lazy"
+          >
+          <div class="project-card__body">
+            <h3 class="project-card__title">株価分析ダッシュボード</h3>
+            <p class="project-card__desc">Python と yfinance を使って複数銘柄の株価推移・移動平均・出来高を可視化するインタラクティブなダッシュボード。</p>
+            <div class="project-card__tags">
+              <span class="tag">Python</span>
+              <span class="tag">Streamlit</span>
+              <span class="tag">yfinance</span>
+            </div>
+            <div class="project-card__links">
+              <a href="#" class="btn btn-outline" target="_blank" rel="noopener">GitHub</a>
+              <a href="#" class="btn btn-primary" target="_blank" rel="noopener">App →</a>
+            </div>
+          </div>
+        </article>
+        <!-- Card 2 -->
+        <article class="project-card fade-in">
+          <img
+            class="project-card__image"
+            src="images/project_english.png"
+            alt="英語学習サポートアプリ"
+            loading="lazy"
+          >
+          <div class="project-card__body">
+            <h3 class="project-card__title">英語学習サポートアプリ</h3>
+            <p class="project-card__desc">YouTube動画から英語フレーズを登録し、音声付きラジオ形式で復習できる学習管理アプリ。学習済みフレーズの除外機能付き。</p>
+            <div class="project-card__tags">
+              <span class="tag">Python</span>
+              <span class="tag">gTTS</span>
+              <span class="tag">CSV</span>
+            </div>
+            <div class="project-card__links">
+              <a href="#" class="btn btn-outline" target="_blank" rel="noopener">GitHub</a>
+            </div>
+          </div>
+        </article>
+      </div>
+      <div class="section-more fade-in">
+        <a href="projects.html" class="btn btn-outline">すべての Projects を見る</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Journal Latest ===== -->
+  <section class="home-journal">
+    <div class="container">
+      <div class="section-heading fade-in">
+        <span class="section-label">Recent Posts</span>
+        <h2 class="section-title">Journal</h2>
+      </div>
+      <div class="article-grid" id="home-article-grid"></div>
+      <div class="section-more fade-in">
+        <a href="journal.html" class="btn btn-outline">すべての Journal を読む</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Footer ===== -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-inner">
+        <div>
+          <p class="footer-logo">Data <span>&</span> Canvas</p>
+          <p class="footer-tagline">データと表現で、日常をデザインする。</p>
+        </div>
+        <nav class="footer-nav" aria-label="フッターナビゲーション">
+          <a href="index.html">Home</a>
+          <a href="projects.html">Projects</a>
+          <a href="journal.html">Journal</a>
+          <a href="about.html">About</a>
+          <a href="contact.html">Contact</a>
+        </nav>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-copyright">© 2026 Data & Canvas. All rights reserved.</p>
+        <div class="footer-sns">
+          <a href="#" aria-label="GitHub" target="_blank" rel="noopener">GitHub</a>
+          <a href="#" aria-label="X (Twitter)" target="_blank" rel="noopener">X</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/journal.js"></script>
+  <script src="js/nav.js"></script>
+</body>
+</html>

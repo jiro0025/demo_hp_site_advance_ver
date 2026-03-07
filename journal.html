@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Journal — Data & Canvas</title>
+  <meta name="description" content="開発・英語学習・カフェ記録・マインドフルネスなど、日々のアウトプットを発信しています。">
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/pages/journal.css">
+</head>
+<body>
+
+  <!-- ===== Header ===== -->
+  <header class="site-header">
+    <div class="container">
+      <a href="index.html" class="site-logo">Data <span>&</span> Canvas</a>
+      <button class="nav-toggle" id="nav-toggle" aria-label="メニューを開く" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <nav aria-label="メインナビゲーション">
+        <ul class="nav-list" id="nav-list">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="projects.html">Projects</a></li>
+          <li><a href="journal.html">Journal</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ===== Page Hero ===== -->
+  <div class="journal-hero">
+    <div class="container">
+      <span class="section-label">Posts</span>
+      <h1 class="journal-hero__title">Journal</h1>
+      <p class="journal-hero__desc">開発・英語・カフェ・マインドフルネスなど、日々のアウトプットを綴っています。</p>
+      <!-- Tag Filter -->
+      <div class="tag-filter" id="tag-filter" aria-label="タグで絞り込む" role="group"></div>
+    </div>
+  </div>
+
+  <!-- ===== Article Grid ===== -->
+  <section class="journal-section">
+    <div class="container">
+      <div class="article-grid" id="article-grid" aria-live="polite">
+        <!-- JS で動的に挿入 -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Footer ===== -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-inner">
+        <div>
+          <p class="footer-logo">Data <span>&</span> Canvas</p>
+          <p class="footer-tagline">データと表現で、日常をデザインする。</p>
+        </div>
+        <nav class="footer-nav" aria-label="フッターナビゲーション">
+          <a href="index.html">Home</a>
+          <a href="projects.html">Projects</a>
+          <a href="journal.html">Journal</a>
+          <a href="about.html">About</a>
+          <a href="contact.html">Contact</a>
+        </nav>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-copyright">© 2026 Data & Canvas. All rights reserved.</p>
+        <div class="footer-sns">
+          <a href="#" aria-label="GitHub" target="_blank" rel="noopener">GitHub</a>
+          <a href="#" aria-label="X (Twitter)" target="_blank" rel="noopener">X</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/journal.js"></script>
+  <script src="js/nav.js"></script>
+</body>
+</html>

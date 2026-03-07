@@ -1,0 +1,333 @@
+/* ============================
+   Components — Data & Canvas
+   ============================ */
+
+/* ============================
+   Button
+   ============================ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-6);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  border-radius: var(--radius-sm);
+  transition: background-color var(--transition-normal),
+              color var(--transition-normal),
+              transform var(--transition-fast),
+              box-shadow var(--transition-normal);
+  cursor: pointer;
+  letter-spacing: 0.02em;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+.btn-primary {
+  background-color: var(--color-accent);
+  color: var(--color-white);
+  border: 1.5px solid var(--color-accent);
+}
+
+.btn-primary:hover {
+  background-color: var(--color-accent-dark);
+  border-color: var(--color-accent-dark);
+  color: var(--color-white);
+  box-shadow: var(--shadow-md);
+}
+
+.btn-outline {
+  background-color: transparent;
+  color: var(--color-accent);
+  border: 1.5px solid var(--color-accent);
+}
+
+.btn-outline:hover {
+  background-color: var(--color-accent);
+  color: var(--color-white);
+  box-shadow: var(--shadow-md);
+}
+
+/* ============================
+   Tag / Badge
+   ============================ */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--space-1) var(--space-3);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-accent);
+  background-color: rgba(139, 90, 43, 0.08);
+  border-radius: 100px;
+  letter-spacing: 0.02em;
+  transition: background-color var(--transition-fast), color var(--transition-fast);
+  cursor: default;
+}
+
+.tag.clickable {
+  cursor: pointer;
+}
+
+.tag.clickable:hover,
+.tag.active {
+  background-color: var(--color-accent);
+  color: var(--color-white);
+}
+
+/* ============================
+   Project Card
+   ============================ */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: var(--space-8);
+}
+
+.project-card {
+  background-color: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+}
+
+.project-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-hover);
+}
+
+.project-card__image {
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  width: 100%;
+  background-color: var(--color-base-alt);
+}
+
+.project-card__body {
+  padding: var(--space-8);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  flex: 1;
+}
+
+.project-card__title {
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-bold);
+}
+
+.project-card__desc {
+  font-size: var(--font-size-sm);
+  color: var(--color-sub);
+  line-height: var(--line-height-loose);
+  flex: 1;
+}
+
+.project-card__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.project-card__links {
+  display: flex;
+  gap: var(--space-3);
+  margin-top: auto;
+  padding-top: var(--space-4);
+}
+
+/* ============================
+   Journal / Article Card
+   ============================ */
+.article-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--space-8);
+}
+
+.article-card {
+  background-color: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+  cursor: pointer;
+}
+
+.article-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-hover);
+}
+
+.article-card__image {
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  width: 100%;
+  background-color: var(--color-base-alt);
+}
+
+.article-card__body {
+  padding: var(--space-6) var(--space-7, 1.75rem) var(--space-8);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  flex: 1;
+}
+
+.article-card__meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-size: var(--font-size-xs);
+  color: var(--color-muted);
+  margin-top: auto;
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--color-border);
+}
+
+.article-card__date::before {
+  content: '';
+}
+
+.article-card__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.article-card__title {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-tight);
+  flex: 1;
+}
+
+.article-card__excerpt {
+  font-size: var(--font-size-sm);
+  color: var(--color-sub);
+  line-height: var(--line-height-loose);
+}
+
+/* ============================
+   Skill List (About)
+   ============================ */
+.skill-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: var(--space-4);
+}
+
+.skill-item {
+  background-color: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-4) var(--space-6);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.skill-item::before {
+  content: '';
+  display: block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--color-accent);
+  flex-shrink: 0;
+}
+
+/* ============================
+   Form (Contact)
+   ============================ */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-bottom: var(--space-6);
+}
+
+.form-label {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-main);
+}
+
+.form-label .required {
+  color: var(--color-accent);
+  margin-left: var(--space-1);
+}
+
+.form-input,
+.form-textarea {
+  width: 100%;
+  padding: var(--space-3) var(--space-4);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-white);
+  color: var(--color-main);
+  font-size: var(--font-size-base);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  outline: none;
+  appearance: none;
+}
+
+.form-input:focus,
+.form-textarea:focus {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(139, 90, 43, 0.12);
+}
+
+.form-textarea {
+  min-height: 160px;
+  resize: vertical;
+  line-height: var(--line-height-loose);
+}
+
+/* ============================
+   Success Message (Contact)
+   ============================ */
+.form-success {
+  display: none;
+  background-color: rgba(139, 90, 43, 0.08);
+  border: 1px solid var(--color-accent);
+  border-radius: var(--radius-md);
+  padding: var(--space-6);
+  text-align: center;
+  color: var(--color-accent);
+  font-weight: var(--font-weight-medium);
+  margin-top: var(--space-6);
+}
+
+.form-success.show {
+  display: block;
+}
+
+/* ============================
+   Responsive
+   ============================ */
+@media (max-width: 768px) {
+  .card-grid,
+  .article-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .skill-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}

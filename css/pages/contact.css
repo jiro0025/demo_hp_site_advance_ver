@@ -1,0 +1,48 @@
+/* ============================
+   Contact Page — Data & Canvas
+   ============================ */
+
+.contact-hero {
+  padding: var(--space-16) 0 var(--space-12);
+  background-color: var(--color-base-alt);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.contact-section {
+  padding: var(--space-16) 0;
+}
+
+.contact-inner {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: var(--space-16);
+  align-items: start;
+}
+
+.contact-info h3 {
+  font-size: var(--font-size-lg);
+  margin-bottom: var(--space-4);
+}
+
+.contact-info p {
+  font-size: var(--font-size-sm);
+  color: var(--color-sub);
+  line-height: var(--line-height-loose);
+}
+
+.contact-form-wrap {
+  background-color: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-8) var(--space-10);
+}
+
+@media (max-width: 768px) {
+  .contact-inner {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-form-wrap {
+    padding: var(--space-6);
+  }
+}

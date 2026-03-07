@@ -1,0 +1,25 @@
+/* ============================
+   Projects Page — Data & Canvas
+   ============================ */
+
+.projects-hero {
+  padding: var(--space-16) 0 var(--space-12);
+  background-color: var(--color-base-alt);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.projects-hero__title {
+  font-size: clamp(2rem, 5vw, var(--font-size-2xl));
+  color: var(--color-main);
+  margin-bottom: var(--space-4);
+}
+
+.projects-hero__desc {
+  font-size: var(--font-size-md);
+  color: var(--color-sub);
+  max-width: 520px;
+}
+
+.projects-section {
+  padding: var(--space-16) 0;
+}

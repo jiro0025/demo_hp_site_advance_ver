@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projects — Data & Canvas</title>
+  <meta name="description" content="Python・AIを活用した開発プロジェクトの一覧です。">
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/pages/projects.css">
+</head>
+<body>
+
+  <!-- ===== Header ===== -->
+  <header class="site-header">
+    <div class="container">
+      <a href="index.html" class="site-logo">Data <span>&</span> Canvas</a>
+      <button class="nav-toggle" id="nav-toggle" aria-label="メニューを開く" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <nav aria-label="メインナビゲーション">
+        <ul class="nav-list" id="nav-list">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="projects.html">Projects</a></li>
+          <li><a href="journal.html">Journal</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ===== Page Hero ===== -->
+  <div class="projects-hero">
+    <div class="container">
+      <span class="section-label">Works</span>
+      <h1 class="projects-hero__title">Projects</h1>
+      <p class="projects-hero__desc">Python・AIを中心に開発・分析系のツールを制作しています。</p>
+    </div>
+  </div>
+
+  <!-- ===== Projects Grid ===== -->
+  <section class="projects-section">
+    <div class="container">
+      <div class="card-grid">
+
+        <!-- Project 1 -->
+        <article class="project-card fade-in">
+          <img
+            class="project-card__image"
+            src="images/project_stocks.png"
+            alt="株価分析ダッシュボード"
+            loading="lazy"
+          >
+          <div class="project-card__body">
+            <h2 class="project-card__title">株価分析ダッシュボード</h2>
+            <p class="project-card__desc">
+              Python と yfinance を使って複数銘柄の株価推移・移動平均・出来高をインタラクティブに可視化。Streamlit で Web アプリとして公開し、ブラウザから銘柄コードを入力するだけで分析が完結します。
+            </p>
+            <div class="project-card__tags">
+              <span class="tag">Python</span>
+              <span class="tag">Streamlit</span>
+              <span class="tag">yfinance</span>
+              <span class="tag">Pandas</span>
+            </div>
+            <div class="project-card__links">
+              <a href="#" class="btn btn-outline" target="_blank" rel="noopener">GitHub</a>
+              <a href="#" class="btn btn-primary" target="_blank" rel="noopener">App →</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Project 2 -->
+        <article class="project-card fade-in">
+          <img
+            class="project-card__image"
+            src="images/project_english.png"
+            alt="英語学習サポートアプリ"
+            loading="lazy"
+          >
+          <div class="project-card__body">
+            <h2 class="project-card__title">英語学習サポートアプリ</h2>
+            <p class="project-card__desc">
+              YouTube 動画で出会ったフレーズを登録・管理し、音声付きラジオ形式で復習できる CLI アプリ。学習済みフレーズの除外や CSV 一括インポートにも対応。
+            </p>
+            <div class="project-card__tags">
+              <span class="tag">Python</span>
+              <span class="tag">gTTS</span>
+              <span class="tag">CSV</span>
+            </div>
+            <div class="project-card__links">
+              <a href="#" class="btn btn-outline" target="_blank" rel="noopener">GitHub</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Project 3 (placeholder) -->
+        <article class="project-card fade-in">
+          <img
+            class="project-card__image"
+            src="images/project_website.png"
+            alt="このサイト（Data & Canvas）"
+            loading="lazy"
+          >
+          <div class="project-card__body">
+            <h2 class="project-card__title">Data & Canvas（このサイト）</h2>
+            <p class="project-card__desc">
+              ポートフォリオと Journal を兼ねた静的 Web サイト。HTML / CSS / JavaScript のみで構築し、保守性とシンプルさを優先した構成です。
+            </p>
+            <div class="project-card__tags">
+              <span class="tag">HTML</span>
+              <span class="tag">CSS</span>
+              <span class="tag">JavaScript</span>
+            </div>
+            <div class="project-card__links">
+              <a href="#" class="btn btn-outline" target="_blank" rel="noopener">GitHub</a>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Footer ===== -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-inner">
+        <div>
+          <p class="footer-logo">Data <span>&</span> Canvas</p>
+          <p class="footer-tagline">データと表現で、日常をデザインする。</p>
+        </div>
+        <nav class="footer-nav" aria-label="フッターナビゲーション">
+          <a href="index.html">Home</a>
+          <a href="projects.html">Projects</a>
+          <a href="journal.html">Journal</a>
+          <a href="about.html">About</a>
+          <a href="contact.html">Contact</a>
+        </nav>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-copyright">© 2026 Data & Canvas. All rights reserved.</p>
+        <div class="footer-sns">
+          <a href="#" aria-label="GitHub" target="_blank" rel="noopener">GitHub</a>
+          <a href="#" aria-label="X (Twitter)" target="_blank" rel="noopener">X</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/nav.js"></script>
+</body>
+</html>

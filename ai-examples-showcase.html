@@ -606,13 +606,7 @@
               <span class="browser-dot"></span>
               <span class="browser-url">study/data_science/text_kaggle_win/index.html</span>
             </div>
-            <iframe
-              title="機械学習インタラクティブ教材 ダッシュボード"
-              id="iframe-1"
-            ></iframe>
-            <div class="browser-fallback" id="fallback-1">
-              <p>このデモはローカル環境でのみ閲覧できます。</p>
-            </div>
+            <img src="images/screenshot_ds.png" alt="機械学習インタラクティブ教材 ダッシュボード" style="width:100%;display:block;">
           </div>
           <div class="browser-open-btn">
             <span style="font-size:var(--font-size-xs);color:var(--color-muted);">※ ローカル環境でのみ動作します</span>
@@ -761,13 +755,7 @@
               <span class="browser-dot"></span>
               <span class="browser-url">obsidian/kindle/output/統合レポート_2026上半期.html</span>
             </div>
-            <iframe
-              title="Kindle×日記 統合レポート 2026年上半期"
-              id="iframe-2"
-            ></iframe>
-            <div class="browser-fallback" id="fallback-2">
-              <p>このデモはローカル環境でのみ閲覧できます。</p>
-            </div>
+            <img src="images/screenshot_kindle.png" alt="Kindle×日記 統合レポート 2026年上半期" style="width:100%;display:block;">
           </div>
           <div class="browser-open-btn">
             <span style="font-size:var(--font-size-xs);color:var(--color-muted);">※ ローカル環境でのみ動作します</span>
@@ -931,24 +919,6 @@
 
   <script src="js/nav.js"></script>
   <script>
-    // file://プロトコル以外ではiframeを表示しない（ローカルファイルのため）
-    var isLocal = window.location.protocol === 'file:';
-
-    function setupIframe(iframeId, fallbackId, src) {
-      var iframe = document.getElementById(iframeId);
-      var fallback = document.getElementById(fallbackId);
-      if (!iframe || !fallback) return;
-
-      if (isLocal) {
-        iframe.src = src;
-      } else {
-        iframe.style.display = 'none';
-        fallback.style.display = 'block';
-      }
-    }
-
-    setupIframe('iframe-1', 'fallback-1', '../../../study/data_science/text_kaggle_win/index.html');
-    setupIframe('iframe-2', 'fallback-2', '../../../obsidian/kindle/output/統合レポート_2026上半期.html');
 
     // スムーズスクロール
     document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {

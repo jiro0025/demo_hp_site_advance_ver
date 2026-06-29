@@ -57,16 +57,24 @@
   </div>
 
   <!-- ===== Filter Bar ===== -->
-  <div class="filter-bar" aria-label="カテゴリフィルター">
+  <div class="filter-bar" aria-label="フィルター">
     <div class="container">
-      <span class="filter-label">カテゴリ：</span>
-      <button class="tag clickable active" data-filter="all">すべて</button>
-      <button class="tag clickable" data-filter="webアプリ">Webアプリ</button>
-      <button class="tag clickable" data-filter="ゲーム">ゲーム・ツール</button>
-      <button class="tag clickable" data-filter="pythonツール">Pythonツール</button>
-      <button class="tag clickable" data-filter="学習システム">学習システム</button>
-      <button class="tag clickable" data-filter="ナレッジ管理">ナレッジ管理</button>
-      <button class="tag clickable" data-filter="aiスキル">AIスキル・OSS</button>
+      <div class="filter-row">
+        <span class="filter-label">カテゴリ：</span>
+        <button class="tag clickable active" data-filter="all">すべて</button>
+        <button class="tag clickable" data-filter="webアプリ">Webアプリ</button>
+        <button class="tag clickable" data-filter="ゲーム">ゲーム・ツール</button>
+        <button class="tag clickable" data-filter="pythonツール">Pythonツール</button>
+        <button class="tag clickable" data-filter="学習システム">学習システム</button>
+        <button class="tag clickable" data-filter="ナレッジ管理">ナレッジ管理</button>
+        <button class="tag clickable" data-filter="aiスキル">AIスキル・OSS</button>
+      </div>
+      <div class="filter-row">
+        <span class="filter-label">ステータス：</span>
+        <button class="tag clickable active" data-status-filter="all">すべて</button>
+        <button class="tag clickable" data-status-filter="完成済み">完成済み</button>
+        <button class="tag clickable" data-status-filter="開発中">開発中</button>
+      </div>
     </div>
   </div>
 
@@ -78,7 +86,7 @@
         <!-- ========== Webアプリ ========== -->
 
         <!-- 1. task-pwa -->
-        <article class="case-card fade-in" data-category="webアプリ">
+        <article class="case-card fade-in" data-category="webアプリ" data-status="開発中">
           <img class="case-card__thumb" src="images/case_01.png" alt="タスク管理PWA">
           <div class="case-card__header">
             <span class="tag">Webアプリ</span>
@@ -98,7 +106,7 @@
         </article>
 
         <!-- 2. ag-brain -->
-        <article class="case-card fade-in" data-category="webアプリ">
+        <article class="case-card fade-in" data-category="webアプリ" data-status="開発中">
           <img class="case-card__thumb" src="images/case_02.png" alt="AIナレッジ管理アプリ">
           <div class="case-card__header">
             <span class="tag">Webアプリ</span>
@@ -118,7 +126,7 @@
         </article>
 
         <!-- 3. mindmap-app -->
-        <article class="case-card fade-in" data-category="webアプリ">
+        <article class="case-card fade-in" data-category="webアプリ" data-status="完成済み">
           <img class="case-card__thumb" src="images/case_03.png" alt="リアルタイム同期マインドマップ">
           <div class="case-card__header">
             <span class="tag">Webアプリ</span>
@@ -138,7 +146,7 @@
         </article>
 
         <!-- 4. english_youtube_phrase_manage_app -->
-        <article class="case-card fade-in" data-category="webアプリ">
+        <article class="case-card fade-in" data-category="webアプリ" data-status="完成済み">
           <img class="case-card__thumb" src="images/case_04.png" alt="英語フレーズ管理PWA">
           <div class="case-card__header">
             <span class="tag">Webアプリ</span>
@@ -158,7 +166,7 @@
         </article>
 
         <!-- 5. manage_account_info -->
-        <article class="case-card fade-in" data-category="webアプリ">
+        <article class="case-card fade-in" data-category="webアプリ" data-status="完成済み">
           <img class="case-card__thumb" src="images/case_05.png" alt="マッチングアプリ相手情報CRM">
           <div class="case-card__header">
             <span class="tag">Webアプリ</span>
@@ -178,7 +186,7 @@
         </article>
 
         <!-- 6. 人生OSダッシュボード -->
-        <article class="case-card fade-in" data-category="webアプリ">
+        <article class="case-card fade-in" data-category="webアプリ" data-status="完成済み">
           <img class="case-card__thumb" src="images/case_06.png" alt="人生OSダッシュボード">
           <div class="case-card__header">
             <span class="tag">Webアプリ</span>
@@ -198,7 +206,7 @@
         </article>
 
         <!-- 7. map_bookmark_customize_app -->
-        <article class="case-card fade-in" data-category="webアプリ">
+        <article class="case-card fade-in" data-category="webアプリ" data-status="開発中">
           <img class="case-card__thumb" src="images/case_07.png" alt="地図ブックマーク管理アプリ">
           <div class="case-card__header">
             <span class="tag">Webアプリ</span>
@@ -217,7 +225,7 @@
         </article>
 
         <!-- 8. check_furniture / furniture-vote -->
-        <article class="case-card fade-in" data-category="webアプリ">
+        <article class="case-card fade-in" data-category="webアプリ" data-status="完成済み">
           <img class="case-card__thumb" src="images/case_08.png" alt="家具処遇アンケートツール">
           <div class="case-card__header">
             <span class="tag">Webアプリ</span>
@@ -236,7 +244,7 @@
         </article>
 
         <!-- 9. Data & Canvas portfolio -->
-        <article class="case-card fade-in" data-category="webアプリ">
+        <article class="case-card fade-in" data-category="webアプリ" data-status="完成済み">
           <img class="case-card__thumb" src="images/case_09.png" alt="Data & Canvas ポートフォリオ">
           <div class="case-card__header">
             <span class="tag">Webアプリ</span>
@@ -258,7 +266,7 @@
         <!-- ========== ゲーム・インタラクティブ ========== -->
 
         <!-- 10. Neon Tetris -->
-        <article class="case-card fade-in" data-category="ゲーム">
+        <article class="case-card fade-in" data-category="ゲーム" data-status="完成済み">
           <img class="case-card__thumb" src="images/case_10.png" alt="Neon Tetris">
           <div class="case-card__header">
             <span class="tag">ゲーム・ツール</span>
@@ -277,7 +285,7 @@
         </article>
 
         <!-- 11. Space Invaders -->
-        <article class="case-card fade-in" data-category="ゲーム">
+        <article class="case-card fade-in" data-category="ゲーム" data-status="完成済み">
           <img class="case-card__thumb" src="images/case_11.png" alt="Space Invaders">
           <div class="case-card__header">
             <span class="tag">ゲーム・ツール</span>
@@ -295,7 +303,7 @@
         </article>
 
         <!-- 12. Mosaic Studio -->
-        <article class="case-card fade-in" data-category="ゲーム">
+        <article class="case-card fade-in" data-category="ゲーム" data-status="完成済み">
           <img class="case-card__thumb" src="images/case_12.png" alt="Mosaic Studio">
           <div class="case-card__header">
             <span class="tag">ゲーム・ツール</span>
@@ -316,7 +324,7 @@
         <!-- ========== Pythonツール ========== -->
 
         <!-- 13. table_shuffle -->
-        <article class="case-card fade-in" data-category="pythonツール">
+        <article class="case-card fade-in" data-category="pythonツール" data-status="完成済み">
           <img class="case-card__thumb" src="images/placeholder_python.svg" alt="席替え最適化ツール">
           <div class="case-card__header">
             <span class="tag">Pythonツール</span>
@@ -335,7 +343,7 @@
         </article>
 
         <!-- 14. make_sound_from_book -->
-        <article class="case-card fade-in" data-category="pythonツール">
+        <article class="case-card fade-in" data-category="pythonツール" data-status="開発中">
           <img class="case-card__thumb" src="images/placeholder_python.svg" alt="書籍音声化ツール">
           <div class="case-card__header">
             <span class="tag">Pythonツール</span>
@@ -355,7 +363,7 @@
         </article>
 
         <!-- 15. rental_property_notification -->
-        <article class="case-card fade-in" data-category="pythonツール">
+        <article class="case-card fade-in" data-category="pythonツール" data-status="開発中">
           <img class="case-card__thumb" src="images/placeholder_python.svg" alt="賃貸物件監視ツール">
           <div class="case-card__header">
             <span class="tag">Pythonツール</span>
@@ -374,7 +382,7 @@
         </article>
 
         <!-- 16. libecity_scraper -->
-        <article class="case-card fade-in" data-category="pythonツール">
+        <article class="case-card fade-in" data-category="pythonツール" data-status="開発中">
           <img class="case-card__thumb" src="images/placeholder_python.svg" alt="コミュニティ投稿リアクション分析ツール">
           <div class="case-card__header">
             <span class="tag">Pythonツール</span>
@@ -393,7 +401,7 @@
         </article>
 
         <!-- 17. ユーザ辞書の移行 -->
-        <article class="case-card fade-in" data-category="pythonツール">
+        <article class="case-card fade-in" data-category="pythonツール" data-status="完成済み">
           <img class="case-card__thumb" src="images/placeholder_python.svg" alt="ユーザー辞書変換スクリプト">
           <div class="case-card__header">
             <span class="tag">Pythonツール</span>
@@ -413,7 +421,7 @@
         <!-- ========== 学習システム ========== -->
 
         <!-- 18. data_science HTML教材 -->
-        <article class="case-card fade-in" data-category="学習システム">
+        <article class="case-card fade-in" data-category="学習システム" data-status="開発中">
           <img class="case-card__thumb" src="images/case_18.png" alt="機械学習インタラクティブ教材システム">
           <div class="case-card__header">
             <span class="tag">学習システム</span>
@@ -436,7 +444,7 @@
         <!-- ========== ナレッジ管理 ========== -->
 
         <!-- 19. Kindle highlights -->
-        <article class="case-card fade-in" data-category="ナレッジ管理">
+        <article class="case-card fade-in" data-category="ナレッジ管理" data-status="完成済み">
           <img class="case-card__thumb" src="images/case_19.png" alt="Kindleハイライト7層分析">
           <div class="case-card__header">
             <span class="tag">ナレッジ管理</span>
@@ -458,7 +466,7 @@
         <!-- ========== AIスキル・OSS ========== -->
 
         <!-- 20. Claude Code ドメインスキル群 -->
-        <article class="case-card fade-in" data-category="aiスキル">
+        <article class="case-card fade-in" data-category="aiスキル" data-status="開発中">
           <img class="case-card__thumb" src="images/placeholder_skill.svg" alt="Claude Codeドメインスキル群">
           <div class="case-card__header">
             <span class="tag">AIスキル・OSS</span>
@@ -477,7 +485,7 @@
         </article>
 
         <!-- 21. cohabit系スキル -->
-        <article class="case-card fade-in" data-category="aiスキル">
+        <article class="case-card fade-in" data-category="aiスキル" data-status="完成済み">
           <img class="case-card__thumb" src="images/placeholder_skill.svg" alt="家族・生活管理スキル群">
           <div class="case-card__header">
             <span class="tag">AIスキル・OSS</span>
@@ -496,7 +504,7 @@
         </article>
 
         <!-- 22. セキュリティフック + 設定 -->
-        <article class="case-card fade-in" data-category="aiスキル">
+        <article class="case-card fade-in" data-category="aiスキル" data-status="完成済み">
           <img class="case-card__thumb" src="images/placeholder_skill.svg" alt="Claude Codeセキュリティ設定">
           <div class="case-card__header">
             <span class="tag">AIスキル・OSS</span>
@@ -515,7 +523,7 @@
         </article>
 
         <!-- 23. Understand-Anything -->
-        <article class="case-card fade-in" data-category="aiスキル">
+        <article class="case-card fade-in" data-category="aiスキル" data-status="完成済み">
           <img class="case-card__thumb" src="images/placeholder_skill.svg" alt="Understand-Anything OSS">
           <div class="case-card__header">
             <span class="tag">AIスキル・OSS</span>
@@ -534,7 +542,7 @@
         </article>
 
         <!-- 24. mcp_excalidraw -->
-        <article class="case-card fade-in" data-category="aiスキル">
+        <article class="case-card fade-in" data-category="aiスキル" data-status="完成済み">
           <img class="case-card__thumb" src="images/placeholder_skill.svg" alt="mcp_excalidraw MCPサーバー">
           <div class="case-card__header">
             <span class="tag">AIスキル・OSS</span>
@@ -553,7 +561,7 @@
         </article>
 
         <!-- 25. superpowers -->
-        <article class="case-card fade-in" data-category="aiスキル">
+        <article class="case-card fade-in" data-category="aiスキル" data-status="完成済み">
           <img class="case-card__thumb" src="images/placeholder_skill.svg" alt="superpowers スキル集">
           <div class="case-card__header">
             <span class="tag">AIスキル・OSS</span>
@@ -605,21 +613,35 @@
   <script src="js/nav.js"></script>
   <script>
     (function () {
-      var filterBtns = document.querySelectorAll('[data-filter]');
-      var cards = document.querySelectorAll('.case-card[data-category]');
+      var categoryBtns = document.querySelectorAll('[data-filter]');
+      var statusBtns = document.querySelectorAll('[data-status-filter]');
+      var cards = document.querySelectorAll('.case-card');
+      var activeCategory = 'all';
+      var activeStatus = 'all';
 
-      filterBtns.forEach(function (btn) {
+      function applyFilters() {
+        cards.forEach(function (card) {
+          var catMatch = activeCategory === 'all' || card.dataset.category === activeCategory;
+          var statusMatch = activeStatus === 'all' || card.dataset.status === activeStatus;
+          card.style.display = (catMatch && statusMatch) ? '' : 'none';
+        });
+      }
+
+      categoryBtns.forEach(function (btn) {
         btn.addEventListener('click', function () {
-          filterBtns.forEach(function (b) { b.classList.remove('active'); });
+          categoryBtns.forEach(function (b) { b.classList.remove('active'); });
           btn.classList.add('active');
-          var filter = btn.dataset.filter;
-          cards.forEach(function (card) {
-            if (filter === 'all' || card.dataset.category === filter) {
-              card.style.display = '';
-            } else {
-              card.style.display = 'none';
-            }
-          });
+          activeCategory = btn.dataset.filter;
+          applyFilters();
+        });
+      });
+
+      statusBtns.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          statusBtns.forEach(function (b) { b.classList.remove('active'); });
+          btn.classList.add('active');
+          activeStatus = btn.dataset.statusFilter;
+          applyFilters();
         });
       });
     })();

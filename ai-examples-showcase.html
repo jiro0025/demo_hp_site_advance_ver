@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI事例 深掘り — Data & Canvas</title>
+  <meta name="description" content="機械学習インタラクティブ教材自動生成システムとKindleハイライト7層分析、2つの事例を開発フローとともに紹介します。">
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <style>
+    /* ===== Page-specific tokens ===== */
+    :root {
+      --c1: #7c3aed;   /* 事例①アクセント: パープル */
+      --c1-bg: #f5f3ff;
+      --c1-border: #ddd6fe;
+      --c2: #0d9488;   /* 事例②アクセント: ティール */
+      --c2-bg: #f0fdfa;
+      --c2-border: #99f6e4;
+      --flow-line: #e5e2df;
+    }
+
+    /* ===== Hero ===== */
+    .showcase-hero {
+      padding: var(--space-16) 0 var(--space-12);
+      background: linear-gradient(160deg, #f9f8f6 0%, #f2ede7 100%);
+      border-bottom: 1px solid var(--color-border);
+    }
+    .showcase-hero__eyebrow {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      margin-bottom: var(--space-4);
+    }
+    .showcase-hero__back {
+      font-size: var(--font-size-xs);
+      color: var(--color-muted);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: var(--space-1);
+      transition: color var(--transition-fast);
+    }
+    .showcase-hero__back:hover { color: var(--color-accent); }
+    .showcase-hero h1 {
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 700;
+      color: var(--color-main);
+      line-height: 1.2;
+      margin-bottom: var(--space-4);
+    }
+    .showcase-hero h1 em {
+      font-style: normal;
+      color: var(--color-accent);
+    }
+    .showcase-hero__desc {
+      font-size: var(--font-size-md);
+      color: var(--color-sub);
+      max-width: 600px;
+      line-height: 1.75;
+      margin-bottom: var(--space-8);
+    }
+    .showcase-hero__toc {
+      display: flex;
+      gap: var(--space-3);
+      flex-wrap: wrap;
+    }
+    .toc-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      padding: var(--space-2) var(--space-4);
+      border-radius: 99px;
+      font-size: var(--font-size-sm);
+      font-weight: 500;
+      text-decoration: none;
+      border: 1.5px solid;
+      transition: all var(--transition-fast);
+    }
+    .toc-chip--1 {
+      color: var(--c1);
+      border-color: var(--c1-border);
+      background: var(--c1-bg);
+    }
+    .toc-chip--1:hover { background: var(--c1); color: #fff; border-color: var(--c1); }
+    .toc-chip--2 {
+      color: var(--c2);
+      border-color: var(--c2-border);
+      background: var(--c2-bg);
+    }
+    .toc-chip--2:hover { background: var(--c2); color: #fff; border-color: var(--c2); }
+    .toc-chip--3 {
+      color: var(--color-accent);
+      border-color: #e2c9b0;
+      background: #fdf8f4;
+    }
+    .toc-chip--3:hover { background: var(--color-accent); color: #fff; border-color: var(--color-accent); }
+
+    /* ===== Case Section ===== */
+    .case-section {
+      padding: var(--space-16) 0;
+      border-bottom: 1px solid var(--color-border);
+    }
+    .case-section--alt { background: var(--color-base-alt); }
+
+    .case-header {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-6);
+      margin-bottom: var(--space-12);
+    }
+    .case-number {
+      font-size: 5rem;
+      font-weight: 800;
+      line-height: 1;
+      flex-shrink: 0;
+      opacity: 0.12;
+      color: var(--color-main);
+    }
+    .case-header__meta { flex: 1; }
+    .case-category-badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 99px;
+      font-size: var(--font-size-xs);
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      margin-bottom: var(--space-3);
+    }
+    .case-category-badge--1 { background: var(--c1-bg); color: var(--c1); border: 1px solid var(--c1-border); }
+    .case-category-badge--2 { background: var(--c2-bg); color: var(--c2); border: 1px solid var(--c2-border); }
+    .case-header h2 {
+      font-size: clamp(1.4rem, 3vw, 1.85rem);
+      font-weight: 700;
+      color: var(--color-main);
+      line-height: 1.3;
+      margin-bottom: var(--space-4);
+    }
+    .case-header__summary {
+      font-size: var(--font-size-base);
+      color: var(--color-sub);
+      line-height: 1.75;
+      max-width: 680px;
+    }
+
+    /* ===== Two-column layout: description + preview ===== */
+    .case-body {
+      display: grid;
+      grid-template-columns: 1fr 1.5fr;
+      gap: var(--space-12);
+      align-items: start;
+      margin-bottom: var(--space-12);
+    }
+    @media (max-width: 900px) {
+      .case-body { grid-template-columns: 1fr; }
+    }
+
+    .case-desc-block h3 {
+      font-size: var(--font-size-md);
+      font-weight: 700;
+      margin-bottom: var(--space-4);
+      color: var(--color-main);
+    }
+    .case-desc-block p {
+      font-size: var(--font-size-sm);
+      color: var(--color-sub);
+      line-height: 1.8;
+      margin-bottom: var(--space-4);
+    }
+    .case-highlights {
+      list-style: none;
+      margin-bottom: var(--space-6);
+    }
+    .case-highlights li {
+      font-size: var(--font-size-sm);
+      color: var(--color-sub);
+      line-height: 1.7;
+      padding: var(--space-2) 0;
+      padding-left: var(--space-6);
+      position: relative;
+    }
+    .case-highlights li::before {
+      content: '✓';
+      position: absolute;
+      left: 0;
+      font-weight: 700;
+    }
+    .case-highlights--1 li::before { color: var(--c1); }
+    .case-highlights--2 li::before { color: var(--c2); }
+
+    .tech-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-2);
+      margin-top: var(--space-4);
+    }
+
+    /* ===== Browser Preview (iframe wrapper) ===== */
+    .browser-frame {
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-lg);
+      border: 1px solid var(--color-border);
+      background: #fff;
+    }
+    .browser-bar {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      padding: var(--space-3) var(--space-4);
+      background: #f5f5f5;
+      border-bottom: 1px solid #e0e0e0;
+    }
+    .browser-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+    }
+    .browser-dot:nth-child(1) { background: #ff5f57; }
+    .browser-dot:nth-child(2) { background: #febc2e; }
+    .browser-dot:nth-child(3) { background: #28c840; }
+    .browser-url {
+      flex: 1;
+      margin-left: var(--space-3);
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      padding: 3px 10px;
+      font-size: 11px;
+      color: #666;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .browser-frame iframe {
+      width: 100%;
+      height: 520px;
+      border: none;
+      display: block;
+    }
+    .browser-fallback {
+      display: none;
+      padding: var(--space-12);
+      text-align: center;
+      background: var(--color-base-alt);
+    }
+    .browser-fallback p {
+      font-size: var(--font-size-sm);
+      color: var(--color-muted);
+      margin-bottom: var(--space-4);
+    }
+    .browser-open-btn {
+      display: block;
+      text-align: right;
+      margin-top: var(--space-3);
+    }
+    .browser-open-btn a {
+      font-size: var(--font-size-xs);
+      color: var(--color-muted);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-1);
+    }
+    .browser-open-btn a:hover { color: var(--color-accent); }
+
+    /* ===== Flow Diagram ===== */
+    .flow-section {
+      padding: var(--space-12) var(--space-8);
+      background: var(--color-white);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--color-border);
+    }
+    .flow-section__title {
+      font-size: var(--font-size-md);
+      font-weight: 700;
+      color: var(--color-main);
+      margin-bottom: var(--space-8);
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+    }
+    .flow-section__title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--color-border);
+    }
+    .flow-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .flow-row {
+      display: grid;
+      grid-template-columns: 40px 1fr;
+      gap: 0;
+      align-items: stretch;
+    }
+    .flow-row:last-child .flow-line { display: none; }
+    .flow-spine {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .flow-dot {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+      color: #fff;
+      flex-shrink: 0;
+      margin-top: 14px;
+    }
+    .flow-dot--1 { background: var(--c1); }
+    .flow-dot--2 { background: var(--c2); }
+    .flow-line {
+      width: 2px;
+      flex: 1;
+      background: var(--flow-line);
+      margin: 4px 0;
+    }
+    .flow-content {
+      padding: 10px 0 10px var(--space-4);
+      padding-bottom: var(--space-6);
+    }
+    .flow-content__label {
+      font-size: var(--font-size-xs);
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      margin-bottom: var(--space-1);
+    }
+    .flow-content__label--1 { color: var(--c1); }
+    .flow-content__label--2 { color: var(--c2); }
+    .flow-content__title {
+      font-size: var(--font-size-base);
+      font-weight: 600;
+      color: var(--color-main);
+      margin-bottom: var(--space-1);
+    }
+    .flow-content__desc {
+      font-size: var(--font-size-sm);
+      color: var(--color-sub);
+      line-height: 1.7;
+    }
+    .flow-code {
+      display: inline-block;
+      background: #1e1e2e;
+      color: #a6e3a1;
+      font-family: 'JetBrains Mono', 'Fira Code', monospace;
+      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: 4px;
+      margin-top: var(--space-2);
+    }
+
+    /* ===== Insights Grid ===== */
+    .insights-section {
+      padding: var(--space-16) 0;
+      background: var(--color-base);
+    }
+    .insights-section .section-title {
+      font-size: clamp(1.5rem, 3vw, var(--font-size-xl));
+      font-weight: 700;
+      color: var(--color-main);
+      margin-bottom: var(--space-4);
+    }
+    .insights-section .section-desc {
+      font-size: var(--font-size-base);
+      color: var(--color-sub);
+      max-width: 600px;
+      line-height: 1.75;
+      margin-bottom: var(--space-12);
+    }
+    .insights-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-6);
+    }
+    @media (max-width: 768px) {
+      .insights-grid { grid-template-columns: 1fr; }
+    }
+    .insight-card {
+      background: var(--color-white);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-8);
+      transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+    }
+    .insight-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-hover);
+    }
+    .insight-card__icon {
+      font-size: 2rem;
+      margin-bottom: var(--space-4);
+      display: block;
+    }
+    .insight-card__num {
+      font-size: var(--font-size-xs);
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: var(--color-muted);
+      margin-bottom: var(--space-2);
+    }
+    .insight-card h3 {
+      font-size: var(--font-size-base);
+      font-weight: 700;
+      color: var(--color-main);
+      line-height: 1.4;
+      margin-bottom: var(--space-3);
+    }
+    .insight-card p {
+      font-size: var(--font-size-sm);
+      color: var(--color-sub);
+      line-height: 1.8;
+    }
+    .insight-card__accent {
+      display: block;
+      margin-top: var(--space-4);
+      padding: var(--space-3) var(--space-4);
+      border-radius: var(--radius-sm);
+      font-size: var(--font-size-xs);
+      font-weight: 600;
+    }
+    .insight-card__accent--1 { background: var(--c1-bg); color: var(--c1); }
+    .insight-card__accent--2 { background: var(--c2-bg); color: var(--c2); }
+    .insight-card__accent--3 { background: #fff7ed; color: #c2410c; }
+
+    /* ===== CTA ===== */
+    .cta-section {
+      padding: var(--space-16) 0;
+      text-align: center;
+      background: linear-gradient(160deg, #f9f8f6 0%, #f2ede7 100%);
+      border-top: 1px solid var(--color-border);
+    }
+    .cta-section h2 {
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      font-weight: 700;
+      color: var(--color-main);
+      margin-bottom: var(--space-4);
+    }
+    .cta-section p {
+      font-size: var(--font-size-base);
+      color: var(--color-sub);
+      margin-bottom: var(--space-8);
+    }
+    .cta-btns {
+      display: flex;
+      gap: var(--space-4);
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    /* ===== Section label ===== */
+    .section-label {
+      display: inline-block;
+      font-size: var(--font-size-xs);
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--color-accent);
+      margin-bottom: var(--space-3);
+    }
+
+    /* ===== 7層バッジ ===== */
+    .layers-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-3);
+      margin-top: var(--space-6);
+    }
+    @media (max-width: 600px) {
+      .layers-grid { grid-template-columns: 1fr; }
+    }
+    .layer-badge {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      padding: var(--space-3) var(--space-4);
+      background: var(--c2-bg);
+      border: 1px solid var(--c2-border);
+      border-radius: var(--radius-md);
+    }
+    .layer-badge__num {
+      width: 24px; height: 24px;
+      border-radius: 50%;
+      background: var(--c2);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .layer-badge__text {
+      font-size: var(--font-size-xs);
+      font-weight: 600;
+      color: var(--c2);
+      line-height: 1.3;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== Header ===== -->
+  <header class="site-header">
+    <div class="container">
+      <a href="index.html" class="site-logo">Data <span>&</span> Canvas</a>
+      <button class="nav-toggle" id="nav-toggle" aria-label="メニューを開く" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <nav aria-label="メインナビゲーション">
+        <ul class="nav-list" id="nav-list">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="projects.html">Projects</a></li>
+          <li><a href="journal.html">Journal</a></li>
+          <li><a href="ai-examples.html" class="active">AI事例</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ===== Hero ===== -->
+  <section class="showcase-hero">
+    <div class="container">
+      <div class="showcase-hero__eyebrow">
+        <a href="ai-examples.html" class="showcase-hero__back">← AI活用事例 25選に戻る</a>
+      </div>
+      <span class="section-label">Deep Dive</span>
+      <h1>AIと共に作る<br><em>2つの事例から学ぶ</em></h1>
+      <p class="showcase-hero__desc">
+        Claude Codeとペアプログラミングしてきた25事例のうち、2つを深掘りして紹介します。
+        実際に動くページを見ながら、どうやって作ったかを一緒に振り返ってみてください。
+      </p>
+      <div class="showcase-hero__toc">
+        <a href="#case-1" class="toc-chip toc-chip--1">01 機械学習教材 自動生成システム</a>
+        <a href="#case-2" class="toc-chip toc-chip--2">02 Kindleハイライト 7層分析</a>
+        <a href="#insights" class="toc-chip toc-chip--3">チームへの示唆</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================== -->
+  <!-- 事例 01: 機械学習インタラクティブ教材  -->
+  <!-- ===================================== -->
+  <section class="case-section" id="case-1">
+    <div class="container">
+
+      <!-- Header -->
+      <div class="case-header">
+        <div class="case-number">01</div>
+        <div class="case-header__meta">
+          <span class="case-category-badge case-category-badge--1">学習システム</span>
+          <h2>機械学習インタラクティブ教材<br>自動生成システム</h2>
+          <p class="case-header__summary">
+            「JSONファイルを書くだけで、Canvasアニメーション付きのインタラクティブHTML教材が完成する」仕組みを構築。
+            Kaggle・BERT・Python機械学習の3書籍12章以上を、Claude Codeとともに作り上げた。
+          </p>
+        </div>
+      </div>
+
+      <!-- Body: Description + iframe -->
+      <div class="case-body">
+
+        <!-- Left: Description -->
+        <div class="case-desc-block">
+          <h3>何を解決したか</h3>
+          <p>
+            技術書の各章を教材化するとき、「内容を書く」より「ページを作る」作業のほうが圧倒的に時間がかかっていた。
+            コードハイライト・数式・インタラクティブデモを毎章手書きするのは現実的ではない。
+          </p>
+          <p>
+            そこで <strong>コンテンツ（JSON）とUI（Pythonテンプレ）を完全分離</strong>。
+            章の内容をJSONに書いたら、スクリプト1行でReact+KaTeX+Canvas付きのHTMLが秒単位で生成される。
+          </p>
+          <ul class="case-highlights case-highlights--1">
+            <li>React CDN + KaTeX + Prism.js + Canvas をすべて内包した単一HTML</li>
+            <li>スライダー・クイズ・グラフアニメーションをJSONから自動生成</li>
+            <li>テキストハイライト・付箋メモ・Gemini連携 (study-tools.js)</li>
+            <li>ダークモード / モバイル対応 / 進捗トラッカー搭載</li>
+            <li>gen_html.py 実行でトークン消費ゼロ、数秒で1章分を生成</li>
+          </ul>
+          <div class="tech-row">
+            <span class="tag">React 18</span>
+            <span class="tag">KaTeX</span>
+            <span class="tag">Prism.js</span>
+            <span class="tag">Canvas API</span>
+            <span class="tag">Python</span>
+            <span class="tag">Claude Code</span>
+          </div>
+        </div>
+
+        <!-- Right: iframe -->
+        <div>
+          <div class="browser-frame" id="frame-1">
+            <div class="browser-bar">
+              <span class="browser-dot"></span>
+              <span class="browser-dot"></span>
+              <span class="browser-dot"></span>
+              <span class="browser-url">study/data_science/text_kaggle_win/index.html</span>
+            </div>
+            <iframe
+              src="../../../study/data_science/text_kaggle_win/index.html"
+              title="機械学習インタラクティブ教材 ダッシュボード"
+              id="iframe-1"
+              loading="lazy"
+            ></iframe>
+            <div class="browser-fallback" id="fallback-1">
+              <p>プレビューを読み込めませんでした。ブラウザのセキュリティ設定により表示できない場合があります。</p>
+              <a href="../../../study/data_science/text_kaggle_win/index.html" target="_blank" class="btn btn-primary">
+                ページを開く ↗
+              </a>
+            </div>
+          </div>
+          <div class="browser-open-btn">
+            <a href="../../../study/data_science/text_kaggle_win/index.html" target="_blank">
+              別タブで開く ↗
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Development Flow -->
+      <div class="flow-section">
+        <div class="flow-section__title">開発フロー</div>
+        <div class="flow-steps">
+
+          <div class="flow-row">
+            <div class="flow-spine">
+              <div class="flow-dot flow-dot--1">1</div>
+              <div class="flow-line"></div>
+            </div>
+            <div class="flow-content">
+              <div class="flow-content__label flow-content__label--1">PLAN</div>
+              <div class="flow-content__title">教材化する書籍・章を決める</div>
+              <div class="flow-content__desc">
+                「この技術書のどの章を教材化したいか」を決める。1章 = 1HTMLファイルなので、単元ごとに独立して作成できる。
+              </div>
+            </div>
+          </div>
+
+          <div class="flow-row">
+            <div class="flow-spine">
+              <div class="flow-dot flow-dot--1">2</div>
+              <div class="flow-line"></div>
+            </div>
+            <div class="flow-content">
+              <div class="flow-content__label flow-content__label--1">EXTRACT</div>
+              <div class="flow-content__title">書籍PDFをGeminiに投げてJSONで網羅抽出</div>
+              <div class="flow-content__desc">
+                GeminiにPDFを渡して「この章の内容をJSONで出して」と頼む。
+                理論・数式・コード例・ポイント・注意点がまとめて出てくるので、それをそのままJSONファイルとして保存する。
+                PDFを丸ごと読んで構造化してくれるのがGeminiを使う理由。
+              </div>
+            </div>
+          </div>
+
+          <div class="flow-row">
+            <div class="flow-spine">
+              <div class="flow-dot flow-dot--1">3</div>
+              <div class="flow-line"></div>
+            </div>
+            <div class="flow-content">
+              <div class="flow-content__label flow-content__label--1">GENERATE</div>
+              <div class="flow-content__title">gen_html.py で一発生成</div>
+              <div class="flow-content__desc">
+                <code class="flow-code">python3 text_kaggle_win/gen_html.py text_kaggle_win/chapter-N.json</code>
+                <br>GeminiのJSONをそのまま渡すだけ。数秒・トークン消費ゼロ。React/KaTeX/Canvas入りの完全なHTMLが同ディレクトリに出力される。
+              </div>
+            </div>
+          </div>
+
+          <div class="flow-row">
+            <div class="flow-spine">
+              <div class="flow-dot flow-dot--1">4</div>
+              <div class="flow-line"></div>
+            </div>
+            <div class="flow-content">
+              <div class="flow-content__label flow-content__label--1">PUBLISH</div>
+              <div class="flow-content__title">ダッシュボードにリンクを追加して完成</div>
+              <div class="flow-content__desc">
+                index.html のカードに章リンクを追加すれば即座に学習マップへ反映。内容を修正したいときはJSONを編集してgen_html.pyを再実行するだけ。
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div><!-- /flow-section -->
+    </div>
+  </section>
+
+  <!-- ===================================== -->
+  <!-- 事例 02: Kindleハイライト 7層分析      -->
+  <!-- ===================================== -->
+  <section class="case-section case-section--alt" id="case-2">
+    <div class="container">
+
+      <!-- Header -->
+      <div class="case-header">
+        <div class="case-number">02</div>
+        <div class="case-header__meta">
+          <span class="case-category-badge case-category-badge--2">ナレッジ管理</span>
+          <h2>Kindleハイライト →<br>「人生の示唆」7層分析</h2>
+          <p class="case-header__summary">
+            74冊・1,900件超のKindleハイライトをClaude APIで4段階に分析。
+            「読んで終わり」だった本棚を、自分の価値観や行動指針を映す鏡に変えるワークフロー。
+          </p>
+        </div>
+      </div>
+
+      <!-- Body: Description + iframe -->
+      <div class="case-body">
+
+        <!-- Left: Description -->
+        <div class="case-desc-block">
+          <h3>何を解決したか</h3>
+          <p>
+            本を読むたびにハイライトが増えていくのに、半年後には何を読んだかも思い出せない。
+            74冊の学びがバラバラに存在していて、「自分が何を大事にしているか」が見えてこなかった。
+          </p>
+          <p>
+            Obsidianの自動同期でハイライトをMD化し、Pythonで束ねてからClaudeに渡す。
+            <strong>4段階の分析</strong>を経ると、読書の積み重ねが自分の価値観と行動指針になって出てくる。
+          </p>
+
+          <!-- 7層バッジ -->
+          <div class="layers-grid">
+            <div class="layer-badge">
+              <span class="layer-badge__num">①</span>
+              <span class="layer-badge__text">手書きメモ全集<br><small>1,900件を本×タグ別に整理</small></span>
+            </div>
+            <div class="layer-badge">
+              <span class="layer-badge__num">②</span>
+              <span class="layer-badge__text">価値観パターン分析<br><small>語彙のクセ・軸・葛藤</small></span>
+            </div>
+            <div class="layer-badge">
+              <span class="layer-badge__num">③</span>
+              <span class="layer-badge__text">横断テーマ集<br><small>著者を超えた共通洞察</small></span>
+            </div>
+            <div class="layer-badge">
+              <span class="layer-badge__num">④</span>
+              <span class="layer-badge__text">総合・人生の指針<br><small>行動指針10箇条 + 30日プラン</small></span>
+            </div>
+          </div>
+
+          <div class="tech-row" style="margin-top:var(--space-6)">
+            <span class="tag">Python</span>
+            <span class="tag">Claude API</span>
+            <span class="tag">Obsidian</span>
+            <span class="tag">Markdown</span>
+            <span class="tag">Claude Code</span>
+          </div>
+        </div>
+
+        <!-- Right: iframe -->
+        <div>
+          <div class="browser-frame" id="frame-2">
+            <div class="browser-bar">
+              <span class="browser-dot"></span>
+              <span class="browser-dot"></span>
+              <span class="browser-dot"></span>
+              <span class="browser-url">obsidian/kindle/output/統合レポート_2026上半期.html</span>
+            </div>
+            <iframe
+              src="../../../obsidian/kindle/output/統合レポート_2026上半期.html"
+              title="Kindle×日記 統合レポート 2026年上半期"
+              id="iframe-2"
+              loading="lazy"
+            ></iframe>
+            <div class="browser-fallback" id="fallback-2">
+              <p>プレビューを読み込めませんでした。ブラウザのセキュリティ設定により表示できない場合があります。</p>
+              <a href="../../../obsidian/kindle/output/統合レポート_2026上半期.html" target="_blank" class="btn btn-primary">
+                ページを開く ↗
+              </a>
+            </div>
+          </div>
+          <div class="browser-open-btn">
+            <a href="../../../obsidian/kindle/output/統合レポート_2026上半期.html" target="_blank">
+              別タブで開く ↗
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Development Flow -->
+      <div class="flow-section">
+        <div class="flow-section__title">開発フロー</div>
+        <div class="flow-steps">
+
+          <div class="flow-row">
+            <div class="flow-spine">
+              <div class="flow-dot flow-dot--2">1</div>
+              <div class="flow-line"></div>
+            </div>
+            <div class="flow-content">
+              <div class="flow-content__label flow-content__label--2">COLLECT</div>
+              <div class="flow-content__title">ObsidianプラグインでハイライトをMDに落とす</div>
+              <div class="flow-content__desc">
+                Obsidianの Kindle Highlights プラグインを使い、各書籍のハイライトと手書きメモ（「学び」「肝に」「To Do」など）をまるごとMDファイルとして取得する。
+                この作業自体はシンプルだが、74冊分のMDが溜まることで次の分析が成り立つ。
+              </div>
+            </div>
+          </div>
+
+          <div class="flow-row">
+            <div class="flow-spine">
+              <div class="flow-dot flow-dot--2">2</div>
+              <div class="flow-line"></div>
+            </div>
+            <div class="flow-content">
+              <div class="flow-content__label flow-content__label--2">ANALYSE</div>
+              <div class="flow-content__title">Claude Codeに示唆MDを作らせる（泥臭い工程）</div>
+              <div class="flow-content__desc">
+                MDファイルをClaudeに渡して、価値観パターン・横断テーマ・人生の指針などを段階的に引き出していく。
+                一発でうまくいくわけではなく、プロンプトを調整しながら何度もやり取りする地道な作業。
+                その積み重ねが「示唆MD」として <code>kindle/output/</code> に出力される。
+              </div>
+            </div>
+          </div>
+
+          <div class="flow-row">
+            <div class="flow-spine">
+              <div class="flow-dot flow-dot--2">3</div>
+              <div class="flow-line"></div>
+            </div>
+            <div class="flow-content">
+              <div class="flow-content__label flow-content__label--2">CONVERT</div>
+              <div class="flow-content__title">習慣・目標管理ツールへ変換</div>
+              <div class="flow-content__desc">
+                出来上がった示唆MDを、実際に使える形に変換する。行動指針を習慣トラッカーに落とし込んだり、30日プランを目標管理ツールに移したり。
+                「分析して終わり」にしないためのラストステップ。
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div><!-- /flow-section -->
+    </div>
+  </section>
+
+  <!-- ===================================== -->
+  <!-- チームへの示唆                        -->
+  <!-- ===================================== -->
+  <section class="insights-section" id="insights">
+    <div class="container">
+      <span class="section-label">Team Insights</span>
+      <h2 class="section-title">2つの事例から学べること</h2>
+      <p class="section-desc">
+        2つのプロジェクトを振り返ると、共通してやっていることがある。
+        Claude Codeに頼む前に、まず「仕組み」を作っているということ。
+      </p>
+
+      <div class="insights-grid">
+
+        <div class="insight-card">
+          <span class="insight-card__icon">🔧</span>
+          <div class="insight-card__num">INSIGHT 01</div>
+          <h3>「内容を書く」と「ページを作る」を<br>切り離す</h3>
+          <p>
+            ML教材では、chapter-N.json が内容、gen_html.py がHTMLの生成担当として役割が分かれている。
+            新しい章を追加するのは、JSONを書いてスクリプトを1行走らせるだけ。
+            この分離があったから、12章分の教材を無理なく作れた。
+          </p>
+          <span class="insight-card__accent insight-card__accent--1">
+            まず「型」を作る。内容はあとから流し込む。
+          </span>
+        </div>
+
+        <div class="insight-card">
+          <span class="insight-card__icon">📋</span>
+          <div class="insight-card__num">INSIGHT 02</div>
+          <h3>CLAUDE.md に手順を書いておけば<br>毎回説明しなくていい</h3>
+          <p>
+            2つのプロジェクトとも、CLAUDE.md に「どう動くか」が書いてある。
+            Claude Codeはセッションのたびにこのファイルを読むので、「前回と同じように」が自動的に通じる。
+            カスタムスキル（kindle-summaryなど）は、その手順をコマンド1つで呼び出せるようにしたもの。
+          </p>
+          <span class="insight-card__accent insight-card__accent--2">
+            CLAUDE.md はチームへの引き継ぎ書でもある
+          </span>
+        </div>
+
+        <div class="insight-card">
+          <span class="insight-card__icon">📚</span>
+          <div class="insight-card__num">INSIGHT 03</div>
+          <h3>AIが面白くなるのは<br>データが溜まってから</h3>
+          <p>
+            Kindleの分析が深いのは、74冊・1,900件という積み重ねがあるから。
+            AIは道具で、素材の質と量がそのまま出力に出る。
+            ML教材も章JSONが増えるほど学習マップとして使いやすくなる。
+            「何を貯めるか」を先に決めておくのが、どちらの事例にも共通している。
+          </p>
+          <span class="insight-card__accent insight-card__accent--3">
+            AIより先に「何を貯めるか」を決める
+          </span>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CTA ===== -->
+  <section class="cta-section">
+    <div class="container">
+      <h2>他の23事例も見る</h2>
+      <p>ゲーム・Webアプリ・Pythonツール・AIスキルなど、全カテゴリの事例を一覧で確認できます。</p>
+      <div class="cta-btns">
+        <a href="ai-examples.html" class="btn btn-primary">全事例を見る →</a>
+        <a href="about.html" class="btn btn-outline">開発者について</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Footer ===== -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <span class="footer-logo">Data <span>&</span> Canvas</span>
+          <p class="footer-tagline">データと表現の交差点で、AIと共に作る。</p>
+        </div>
+        <nav class="footer-nav" aria-label="フッターナビゲーション">
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="projects.html">Projects</a></li>
+            <li><a href="journal.html">Journal</a></li>
+            <li><a href="ai-examples.html">AI事例</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </nav>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-copy">&copy; 2026 Data & Canvas. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/nav.js"></script>
+  <script>
+    // iframeロード失敗時のフォールバック処理
+    function setupIframeFallback(iframeId, fallbackId) {
+      const iframe = document.getElementById(iframeId);
+      const fallback = document.getElementById(fallbackId);
+      if (!iframe || !fallback) return;
+
+      let loaded = false;
+      iframe.addEventListener('load', function() {
+        loaded = true;
+      });
+
+      // file://プロトコルではerrorイベントが発火しないため、タイムアウトで判定
+      setTimeout(function() {
+        if (!loaded) {
+          iframe.style.display = 'none';
+          fallback.style.display = 'block';
+        }
+      }, 3000);
+    }
+
+    setupIframeFallback('iframe-1', 'fallback-1');
+    setupIframeFallback('iframe-2', 'fallback-2');
+
+    // スムーズスクロール
+    document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
+      anchor.addEventListener('click', function(e) {
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+  </script>
+</body>
+</html>

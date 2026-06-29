@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI活用事例 — Data & Canvas</title>
+  <meta name="description" content="Claude Codeを中心に、Web・ゲーム・データ・自動化の領域でAIと共同開発した25の事例を紹介します。">
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/pages/ai-examples.css">
+</head>
+<body>
+
+  <!-- ===== Header ===== -->
+  <header class="site-header">
+    <div class="container">
+      <a href="index.html" class="site-logo">Data <span>&</span> Canvas</a>
+      <button class="nav-toggle" id="nav-toggle" aria-label="メニューを開く" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <nav aria-label="メインナビゲーション">
+        <ul class="nav-list" id="nav-list">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="projects.html">Projects</a></li>
+          <li><a href="journal.html">Journal</a></li>
+          <li><a href="ai-examples.html">AI事例</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ===== Page Hero ===== -->
+  <div class="ai-examples-hero">
+    <div class="container">
+      <span class="section-label">AI Use Cases</span>
+      <h1 class="ai-examples-hero__title">AIと共に作ったもの</h1>
+      <p class="ai-examples-hero__desc">Claude Codeを中心に、Web・ゲーム・データ・自動化の領域でAIとペアプログラミングしてきた全事例を紹介します。</p>
+      <div class="ai-examples-stats">
+        <div class="ai-stat">
+          <span class="ai-stat__num">25</span>
+          <span class="ai-stat__label">事例</span>
+        </div>
+        <div class="ai-stat">
+          <span class="ai-stat__num">6</span>
+          <span class="ai-stat__label">カテゴリ</span>
+        </div>
+        <div class="ai-stat">
+          <span class="ai-stat__num">7</span>
+          <span class="ai-stat__label">本番運用中</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Filter Bar ===== -->
+  <div class="filter-bar" aria-label="カテゴリフィルター">
+    <div class="container">
+      <span class="filter-label">カテゴリ：</span>
+      <button class="tag clickable active" data-filter="all">すべて</button>
+      <button class="tag clickable" data-filter="webアプリ">Webアプリ</button>
+      <button class="tag clickable" data-filter="ゲーム">ゲーム・ツール</button>
+      <button class="tag clickable" data-filter="pythonツール">Pythonツール</button>
+      <button class="tag clickable" data-filter="学習システム">学習システム</button>
+      <button class="tag clickable" data-filter="ナレッジ管理">ナレッジ管理</button>
+      <button class="tag clickable" data-filter="aiスキル">AIスキル・OSS</button>
+    </div>
+  </div>
+
+  <!-- ===== Cases Grid ===== -->
+  <section class="cases-section">
+    <div class="container">
+      <div class="cases-grid" id="cases-grid">
+
+        <!-- ========== Webアプリ ========== -->
+
+        <!-- 1. task-pwa -->
+        <article class="case-card fade-in" data-category="webアプリ">
+          <div class="case-card__header">
+            <span class="tag">Webアプリ</span>
+            <span class="case-ai-badge">Claude Code</span>
+          </div>
+          <h2 class="case-card__title">タスク管理PWA（Linearインスパイア）</h2>
+          <p class="case-card__desc">LinearライクなUIのプロジェクト管理アプリ。Next.js 15のServer Actionsで安全なミューテーション処理を実装し、SupabaseのRow Level Securityで個人データを保護。オフライン対応のPWA設計。</p>
+          <div class="case-card__tech">
+            <span class="tag">Next.js 15</span>
+            <span class="tag">Supabase</span>
+            <span class="tag">TypeScript</span>
+            <span class="tag">Tailwind CSS</span>
+          </div>
+          <div class="case-card__footer">
+            <span class="case-status case-status--active">アクティブ開発中</span>
+          </div>
+        </article>
+
+        <!-- 2. ag-brain -->
+        <article class="case-card fade-in" data-category="webアプリ">
+          <div class="case-card__header">
+            <span class="tag">Webアプリ</span>
+            <span class="case-ai-badge">Claude Code</span>
+          </div>
+          <h2 class="case-card__title">AIナレッジ管理アプリ（Antigravity Brain）</h2>
+          <p class="case-card__desc">関連ノートをAIが自動提案するメモ・ナレッジ管理アプリ。Framer Motionによるスムーズなアニメーションとタスク自動抽出機能を搭載。日常の思考整理に実運用中。</p>
+          <div class="case-card__tech">
+            <span class="tag">Next.js</span>
+            <span class="tag">Tailwind CSS</span>
+            <span class="tag">Framer Motion</span>
+            <span class="tag">TypeScript</span>
+          </div>
+          <div class="case-card__footer">
+            <span class="case-status case-status--live">本番運用中</span>
+          </div>
+        </article>
+
+        <!-- 3. mindmap-app -->
+        <article class="case-card fade-in" data-category="webアプリ">
+          <div class="case-card__header">
+            <span class="tag">Webアプリ</span>
+            <span class="case-ai-badge">Claude Code</span>
+          </div>
+          <h2 class="case-card__title">リアルタイム同期マインドマップ</h2>
+          <p class="case-card__desc">Firestoreリアルタイム同期でマルチデバイス対応のマインドマップPWA。Google認証・差分保存による高速レスポンス。学習・企画の思考整理に活用中。</p>
+          <div class="case-card__tech">
+            <span class="tag">React</span>
+            <span class="tag">Firebase</span>
+            <span class="tag">Firestore</span>
+            <span class="tag">PWA</span>
+          </div>
+          <div class="case-card__footer">
+            <span class="case-status case-status--live">本番運用中</span>
+          </div>
+        </article>
+
+        <!-- 4. english_youtube_phrase_manage_app -->
+        <article class="case-card fade-in" data-category="webアプリ">
+          <div class="case-card__header">
+            <span class="tag">Webアプリ</span>
+            <span class="case-ai-badge">Claude Code</span>
+          </div>
+          <h2 class="case-card__title">英語フレーズ管理PWA</h2>
+          <p class="case-card__desc">YouTubeで出会った英語フレーズを登録・管理し、音声付きラジオ形式で復習できるモバイルPWA。Capacitorでスマホアプリとしても動作。学習済みフレーズの除外機能付き。</p>
+          <div class="case-card__tech">
+            <span class="tag">React</span>
+            <span class="tag">Capacitor</span>
+            <span class="tag">Firebase</span>
+            <span class="tag">TypeScript</span>
+          </div>
+          <div class="case-card__footer">
+            <span class="case-status case-status--live">本番運用中</span>
+          </div>
+        </article>
+
+        <!-- 5. manage_account_info -->
+        <article class="case-card fade-in" data-category="webアプリ">
+          <div class="case-card__header">
+            <span class="tag">Webアプリ</span>
+            <span class="case-ai-badge">Claude Code</span>
+          </div>
+          <h2 class="case-card__title">マッチングアプリ相手情報CRM</h2>
+          <p class="case-card__desc">マッチングアプリ相手のプロフィール・会話内容を一元管理するCRM。AIによるプロフィール分析・チャット要約機能を搭載。複数アプリの情報を横断して把握できる。</p>
+          <div class="case-card__tech">
+            <span class="tag">Next.js</span>
+            <span class="tag">Firestore</span>
+            <span class="tag">TypeScript</span>
+            <span class="tag">Tailwind CSS</span>
+          </div>
+          <div class="case-card__footer">
+            <span class="case-status case-status--live">本番運用中</span>
+          </div>
+        </article>
+
+        <!-- 6. 人生OSダッシュボード -->
+        <article class="case-card fade-in" data-category="webアプリ">
+          <div class="case-card__header">
+            <span class="tag">Webアプリ</span>
+            <span class="case-ai-badge">Claude Code</span>
+          </div>
+          <h2 class="case-card__title">人生OS ダッシュボード（習慣管理・振り返り）</h2>
+          <p class="case-card__desc">日次習慣チェック・30日ヒートマップ・週次月次レビュー・核12の戒め・40+の人生原則を統合したダッシュボード。吉田松陰やカーネギーの思想を元に設計。LocalStorageで永続化。</p>
+          <div class="case-card__tech">
+            <span class="tag">HTML5</span>
+            <span class="tag">Vanilla JS</span>
+            <span class="tag">LocalStorage</span>
+            <span class="tag">CSS3</span>
+          </div>
+          <div class="case-card__footer">
+            <span class="case-status case-status--live">本番運用中</span>
+          </div>
+        </article>
+
+        <!-- 7. map_bookmark_customize_app -->
+        <article class="case-card fade-in" data-category="webアプリ">
+          <div class="case-card__header">
+            <span class="tag">Webアプリ</span>
+            <span class="case-ai-badge">Claude Code</span>
+          </div>
+          <h2 class="case-card__title">地図ブックマーク管理アプリ</h2>
+          <p class="case-card__desc">地図上のお気に入りスポットをカスタマイズ・管理するReactアプリ。カテゴリ分類・メモ付き保存でカフェや作業場所の整理に活用。</p>
+          <div class="case-card__tech">
+            <span class="tag">React</span>
+            <span class="tag">Vite</span>
+            <span class="tag">TypeScript</span>
+          </div>
+          <div class="case-card__footer">
+            <span class="case-status case-status--wip">未完成</span>
+          </div>
+        </article>
+
+        <!-- 8. check_furniture / furniture-vote -->
+        <article class="case-card fade-in" data-category="webアプリ">
+          <div class="case-card__header">
+            <span class="tag">Webアプリ</span>
+            <span class="case-ai-badge">Claude Code</span>
+          </div>
+          <h2 class="case-card__title">家具処遇アンケート＆集計ツール</h2>
+          <p class="case-card__desc">引越し時の家具の処遇（持っていく/捨てる/売る等）を家族でアンケート回答し、Next.jsで集計・管理するツール。静的HTMLの回答ページとNext.jsの集計ページで構成。</p>
+          <div class="case-card__tech">
+            <span class="tag">HTML5</span>
+            <span class="tag">Next.js</span>
+            <span class="tag">TypeScript</span>
+          </div>
+          <div class="case-card__footer">
+            <span class="case-status case-status--done">完成</span>
+          </div>
+        </article>
+
+        <!-- 9. Data & Canvas portfolio -->
+        <article class="case-card fade-in" data-category="webアプリ">
+          <div class="case-card__header">
+            <span class="tag">Webアプリ</span>
+            <span class="case-ai-badge">Claude Code</span>
+          </div>
+          <h2 class="case-card__title">このポートフォリオサイト（Data &amp; Canvas）</h2>
+          <p class="case-card__desc">今ご覧のこのサイト自体。CSSデザイントークン・モジュール式スタイルシート・タグフィルター付きJournalをVanilla HTML/CSS/JSで構築。GitHub Pages で公開中。</p>
+          <div class="case-card__tech">
+            <span class="tag">HTML5</span>
+            <span class="tag">CSS3</span>
+            <span class="tag">Vanilla JS</span>
+            <span class="tag">GitHub Pages</span>
+          </div>
+          <div class="case-card__footer">
+            <span class="case-status case-status--live">本番運用中</span>
+          </div>
+        </article>
+
+        <!-- ========== ゲーム・インタラクティブ ========== -->
+
+        <!-- 10. Neon Tetris -->
+        <article class="case-card fade-in" data-category="ゲーム">
+          <div class="case-card__header">
+            <span class="tag">ゲーム・ツール</span>
+            <span class="case-ai-badge">Claude Code</span>
+          </div>
+          <h2 class="case-card__title">Neon Tetris</h2>
+          <p class="case-card__desc">グラスモーフィズム＋ネオン照明エフェクトのブラウザテトリス。ホールド機能・次ピース表示・効果音（Web Audio API）・ハイスコア保存対応。タッチ操作でスマホでも動作。</p>
+          <div class="case-card__tech">
+            <span class="tag">HTML5 Canvas</span>
+            <span class="tag">Web Audio API</span>
+            <span class="tag">Vanilla JS</span>
+          </div>
+          <div class="case-card__footer">
+            <span class="case-status case-status--done">完成</span>
+          </div>
+        </article>
+
+        <!-- 11. Space Invaders -->
+        <article class="case-card fade-in" data-category="ゲーム">
+          <div class="case-card__header">
+            <span class="tag">ゲーム・ツール</span>
+            <span class="case-ai-badge">Claude Code</span>
+          </div>
+          <h2 class="case-card__title">Space Invaders シューティング</h2>
+          <p class="case-card__desc">HTML5 Canvas で実装したスペースインベーダー系シューティング。ステージモードとスコアアタックモードを搭載。衝突検出・敵パターン設計をAIと共同実装。複数バージョンあり。</p>
+          <div class="case-card__tech">
+            <span class="tag">HTML5 Canvas</span>
+            <span class="tag">Vanilla JS</span>
+          </div>
+          <div class="case-card__footer">
+            <span class="case-status case-status--done">完成</span>
+          </div>
+        </article>
+
+        <!-- 12. Mosaic Studio -->
+        <article class="case-card fade-in" data-category="ゲーム">
+          <div class="case-card__header">
+            <span class="tag">ゲーム・ツール</span>
+            <span class="case-ai-badge">Claude Code</span>
+          </div>
+          <h2 class="case-card__title">Mosaic Studio（画像モザイク加工ツール）</h2>
+          <p class="case-card__desc">ブラウザ上でドラッグ&ドロップした画像にモザイクをかけられるツール。モザイクペン・移動・切り取りツール・Undo/Redo・ズーム・明るさ調整・PNG出力対応。EXIF自動補正付き。</p>
+          <div class="case-card__tech">
+            <span class="tag">HTML5 Canvas</span>
+            <span class="tag">Vanilla JS</span>
+            <span class="tag">EXIF補正</span>
+          </div>
+          <div class="case-card__footer">
+            <span class="case-status case-status--done">完成</span>
+          </div>
+        </article>
+
+        <!-- ========== Pythonツール ========== -->
+
+        <!-- 13. table_shuffle -->
+        <article class="case-card fade-in" data-category="pythonツール">
+          <div class="case-card__header">
+            <span class="tag">Pythonツール</span>
+            <span class="case-ai-badge">Claude Code</span>
+          </div>
+          <h2 class="case-card__title">席替え最適化ツール</h2>
+          <p class="case-card__desc">男女バランス・過去の席被りを考慮した最適席替えを自動生成するStreamlitアプリ。絶対同席禁止ペアの指定も可能。PNG/テキスト/CSV形式で出力。</p>
+          <div class="case-card__tech">
+            <span class="tag">Python</span>
+            <span class="tag">Streamlit</span>
+            <span class="tag">Pandas</span>
+          </div>
+          <div class="case-card__footer">
+            <span class="case-status case-status--done">完成</span>
+          </div>
+        </article>
+
+        <!-- 14. make_sound_from_book -->
+        <article class="case-card fade-in" data-category="pythonツール">
+          <div class="case-card__header">
+            <span class="tag">Pythonツール</span>
+            <span class="case-ai-badge">Claude Code</span>
+          </div>
+          <h2 class="case-card__title">書籍音声化ツール</h2>
+          <p class="case-card__desc">PDF・テキストファイルをedge-ttsで自然な音声に変換するStreamlitアプリ。長文は適切なチャンクに分割、複数ボイスを選択可能。朝の散歩中に書籍を「聴く」習慣のために開発。</p>
+          <div class="case-card__tech">
+            <span class="tag">Python</span>
+            <span class="tag">edge-tts</span>
+            <span class="tag">pdfplumber</span>
+            <span class="tag">Streamlit</span>
+          </div>
+          <div class="case-card__footer">
+            <span class="case-status case-status--wip">未完成</span>
+          </div>
+        </article>
+
+        <!-- 15. rental_property_notification -->
+        <article class="case-card fade-in" data-category="pythonツール">
+          <div class="case-card__header">
+            <span class="tag">Pythonツール</span>
+            <span class="case-ai-badge">Claude Code</span>
+          </div>
+          <h2 class="case-card__title">賃貸物件監視・通知ツール</h2>
+          <p class="case-card__desc">SUUMO・HOME'S・アットホームの新着物件をPlaywrightで定期監視し、条件に合致した物件をLINE/Slackへ即時通知する自動化ツール。引越し活動中に開発・実運用。</p>
+          <div class="case-card__tech">
+            <span class="tag">Python</span>
+            <span class="tag">Playwright</span>
+            <span class="tag">LINE API</span>
+          </div>
+          <div class="case-card__footer">
+            <span class="case-status case-status--wip">未完成</span>
+          </div>
+        </article>
+
+        <!-- 16. libecity_scraper -->
+        <article class="case-card fade-in" data-category="pythonツール">
+          <div class="case-card__header">
+            <span class="tag">Pythonツール</span>
+            <span class="case-ai-badge">Claude Code</span>
+          </div>
+          <h2 class="case-card__title">コミュニティ投稿リアクション分析ツール</h2>
+          <p class="case-card__desc">リベシティの投稿リアクション数・コメント数をPlaywrightでスクレイピングし、UTF-8 BOM付きCSVで出力するツール。どのコンテンツが反応を集めるかを分析し、発信戦略に活用。</p>
+          <div class="case-card__tech">
+            <span class="tag">Python</span>
+            <span class="tag">Playwright</span>
+            <span class="tag">Pandas</span>
+          </div>
+          <div class="case-card__footer">
+            <span class="case-status case-status--wip">未完成</span>
+          </div>
+        </article>
+
+        <!-- 17. ユーザ辞書の移行 -->
+        <article class="case-card fade-in" data-category="pythonツール">
+          <div class="case-card__header">
+            <span class="tag">Pythonツール</span>
+            <span class="case-ai-badge">Claude Code</span>
+          </div>
+          <h2 class="case-card__title">ユーザー辞書変換スクリプト</h2>
+          <p class="case-card__desc">macOS標準IMEのユーザー辞書をGoogle IME形式に変換するPythonスクリプト。IME乗り換え時の辞書データ移行を自動化し、手作業でのコピーペーストを一掃。</p>
+          <div class="case-card__tech">
+            <span class="tag">Python</span>
+            <span class="tag">CSV処理</span>
+          </div>
+          <div class="case-card__footer">
+            <span class="case-status case-status--done">完成</span>
+          </div>
+        </article>
+
+        <!-- ========== 学習システム ========== -->
+
+        <!-- 18. data_science HTML教材 -->
+        <article class="case-card fade-in" data-category="学習システム">
+          <div class="case-card__header">
+            <span class="tag">学習システム</span>
+            <span class="case-ai-badge">Claude Code + Gemini</span>
+          </div>
+          <h2 class="case-card__title">機械学習インタラクティブ教材自動生成システム</h2>
+          <p class="case-card__desc">JSONファイルを定義するだけでCanvas付きインタラクティブHTML教材を自動生成するPythonシステム。Kaggle・BERT・機械学習入門など3冊12章以上を作成。テキストハイライト・付箋メモ・Gemini連携機能付き。</p>
+          <div class="case-card__tech">
+            <span class="tag">Python</span>
+            <span class="tag">HTML / Canvas</span>
+            <span class="tag">React CDN</span>
+            <span class="tag">KaTeX</span>
+            <span class="tag">Firebase</span>
+          </div>
+          <div class="case-card__footer">
+            <span class="case-status case-status--active">アクティブ開発中</span>
+          </div>
+        </article>
+
+        <!-- ========== ナレッジ管理 ========== -->
+
+        <!-- 19. Kindle highlights -->
+        <article class="case-card fade-in" data-category="ナレッジ管理">
+          <div class="case-card__header">
+            <span class="tag">ナレッジ管理</span>
+            <span class="case-ai-badge">Claude API + Code</span>
+          </div>
+          <h2 class="case-card__title">Kindleハイライト→「人生の示唆」7層分析</h2>
+          <p class="case-card__desc">74冊のKindleハイライト計1,900+件をPythonで構造化し、Claude APIで価値観パターン・横断テーマ・時系列変遷・影の自己など7層に分析。読書から「人生の指針10箇条」と「未解決の問い」を継続的に生成。</p>
+          <div class="case-card__tech">
+            <span class="tag">Python</span>
+            <span class="tag">Claude API</span>
+            <span class="tag">Obsidian</span>
+            <span class="tag">Firestore</span>
+          </div>
+          <div class="case-card__footer">
+            <span class="case-status case-status--live">本番運用中</span>
+          </div>
+        </article>
+
+        <!-- ========== AIスキル・OSS ========== -->
+
+        <!-- 20. Claude Code ドメインスキル群 -->
+        <article class="case-card fade-in" data-category="aiスキル">
+          <div class="case-card__header">
+            <span class="tag">AIスキル・OSS</span>
+            <span class="case-ai-badge">Claude Code</span>
+          </div>
+          <h2 class="case-card__title">Claude Codeドメインスキル群（5種）</h2>
+          <p class="case-card__desc">Kindle復習まとめ生成・インタラクティブ教材作成・Markdown解説深掘り・Gemini調査プロンプト生成・リベシティ記事執筆の5スキルを開発。繰り返し作業をワンコマンド化し、品質を標準化。</p>
+          <div class="case-card__tech">
+            <span class="tag">Claude Skill</span>
+            <span class="tag">Markdown</span>
+            <span class="tag">プロンプト設計</span>
+          </div>
+          <div class="case-card__footer">
+            <span class="case-status case-status--active">アクティブ開発中</span>
+          </div>
+        </article>
+
+        <!-- 21. cohabit系スキル -->
+        <article class="case-card fade-in" data-category="aiスキル">
+          <div class="case-card__header">
+            <span class="tag">AIスキル・OSS</span>
+            <span class="case-ai-badge">Claude Code</span>
+          </div>
+          <h2 class="case-card__title">家族・生活管理スキル群（5種）</h2>
+          <p class="case-card__desc">LINE会話からタスク抽出・テキストから自己分析インサイト抽出・過去の買い物履歴から献立提案・ブロッキング解消・買い物リスト抽出の5スキルをCohabit向けに開発。</p>
+          <div class="case-card__tech">
+            <span class="tag">Claude Skill</span>
+            <span class="tag">Markdown</span>
+            <span class="tag">プロンプト設計</span>
+          </div>
+          <div class="case-card__footer">
+            <span class="case-status case-status--done">完成</span>
+          </div>
+        </article>
+
+        <!-- 22. セキュリティフック + 設定 -->
+        <article class="case-card fade-in" data-category="aiスキル">
+          <div class="case-card__header">
+            <span class="tag">AIスキル・OSS</span>
+            <span class="case-ai-badge">Claude Code</span>
+          </div>
+          <h2 class="case-card__title">Claude Codeセキュリティ設定＆フック</h2>
+          <p class="case-card__desc">危険なgitコマンド（reset --hard / push --force / clean -f / branch -D等）を自動ブロックするBashフック。機密ファイル読み取り禁止・危険コマンド制限のglobal設定と、初心者向けセットアップガイドも作成。</p>
+          <div class="case-card__tech">
+            <span class="tag">Bash</span>
+            <span class="tag">JSON設定</span>
+            <span class="tag">Markdown</span>
+          </div>
+          <div class="case-card__footer">
+            <span class="case-status case-status--done">完成</span>
+          </div>
+        </article>
+
+        <!-- 23. Understand-Anything -->
+        <article class="case-card fade-in" data-category="aiスキル">
+          <div class="case-card__header">
+            <span class="tag">AIスキル・OSS</span>
+            <span class="case-ai-badge">Claude Code</span>
+          </div>
+          <h2 class="case-card__title">Understand-Anything（OSS）</h2>
+          <p class="case-card__desc">コード・差分・設計書・オンボーディング・ダッシュボード・会話形式など、あらゆるものを「理解する」ためのユニバーサルスキル集。複数のunderstandスキルをモジュール化して公開。</p>
+          <div class="case-card__tech">
+            <span class="tag">Claude Skill</span>
+            <span class="tag">OSS</span>
+            <span class="tag">Markdown</span>
+          </div>
+          <div class="case-card__footer">
+            <span class="case-status case-status--done">完成</span>
+          </div>
+        </article>
+
+        <!-- 24. mcp_excalidraw -->
+        <article class="case-card fade-in" data-category="aiスキル">
+          <div class="case-card__header">
+            <span class="tag">AIスキル・OSS</span>
+            <span class="case-ai-badge">Claude Code</span>
+          </div>
+          <h2 class="case-card__title">mcp_excalidraw（Excalidraw MCP サーバー）</h2>
+          <p class="case-card__desc">Claude CodeからExcalidrawを直接操作できるMCPサーバー。Claude Codeスキルとして実装し、会話からそのまま図解を生成できるワークフローを構築。OSS として公開。</p>
+          <div class="case-card__tech">
+            <span class="tag">MCP</span>
+            <span class="tag">Claude Skill</span>
+            <span class="tag">OSS</span>
+          </div>
+          <div class="case-card__footer">
+            <span class="case-status case-status--done">完成</span>
+          </div>
+        </article>
+
+        <!-- 25. superpowers -->
+        <article class="case-card fade-in" data-category="aiスキル">
+          <div class="case-card__header">
+            <span class="tag">AIスキル・OSS</span>
+            <span class="case-ai-badge">Claude Code</span>
+          </div>
+          <h2 class="case-card__title">superpowers（コードレビュー・執筆支援スキル集）</h2>
+          <p class="case-card__desc">コードレビューの依頼/受け取り・執筆支援の3スキルをまとめたOSSスキル集。レビューコメントの書き方から受け取り方まで、チーム開発のコミュニケーションを標準化する。</p>
+          <div class="case-card__tech">
+            <span class="tag">Claude Skill</span>
+            <span class="tag">OSS</span>
+            <span class="tag">Markdown</span>
+          </div>
+          <div class="case-card__footer">
+            <span class="case-status case-status--done">完成</span>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Footer ===== -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-inner">
+        <div>
+          <p class="footer-logo">Data <span>&</span> Canvas</p>
+          <p class="footer-tagline">データと表現で、日常をデザインする。</p>
+        </div>
+        <nav class="footer-nav" aria-label="フッターナビゲーション">
+          <a href="index.html">Home</a>
+          <a href="projects.html">Projects</a>
+          <a href="journal.html">Journal</a>
+          <a href="ai-examples.html">AI事例</a>
+          <a href="about.html">About</a>
+          <a href="contact.html">Contact</a>
+        </nav>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-copyright">© 2026 Data & Canvas. All rights reserved.</p>
+        <div class="footer-sns">
+          <a href="#" aria-label="GitHub" target="_blank" rel="noopener">GitHub</a>
+          <a href="#" aria-label="X (Twitter)" target="_blank" rel="noopener">X</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/nav.js"></script>
+  <script>
+    (function () {
+      var filterBtns = document.querySelectorAll('[data-filter]');
+      var cards = document.querySelectorAll('.case-card[data-category]');
+
+      filterBtns.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          filterBtns.forEach(function (b) { b.classList.remove('active'); });
+          btn.classList.add('active');
+          var filter = btn.dataset.filter;
+          cards.forEach(function (card) {
+            if (filter === 'all' || card.dataset.category === filter) {
+              card.style.display = '';
+            } else {
+              card.style.display = 'none';
+            }
+          });
+        });
+      });
+    })();
+  </script>
+</body>
+</html>

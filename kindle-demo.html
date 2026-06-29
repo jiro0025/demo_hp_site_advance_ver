@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>読書×日記 人生設計書（デモ）</title>
+<style>
+  :root {
+    --bg: #0f1117;
+    --surface: #1a1d27;
+    --surface2: #22263a;
+    --border: #2e3350;
+    --accent: #6c8ef5;
+    --accent2: #a78bfa;
+    --accent3: #34d399;
+    --warn: #f59e0b;
+    --danger: #f87171;
+    --text: #e2e8f0;
+    --text-muted: #94a3b8;
+    --text-dim: #64748b;
+    --nav-w: 240px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.8;
+    display: flex;
+  }
+
+  nav {
+    width: var(--nav-w);
+    min-height: 100vh;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    position: fixed;
+    top: 0; left: 0;
+    overflow-y: auto;
+    padding: 24px 0;
+    z-index: 100;
+  }
+
+  nav .logo {
+    padding: 0 20px 20px;
+    font-size: 12px;
+    color: var(--text-dim);
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 12px;
+    line-height: 1.5;
+  }
+  nav .logo span { color: var(--accent); font-weight: 700; font-size: 13px; display: block; margin-bottom: 2px; }
+
+  nav a {
+    display: block;
+    padding: 7px 20px;
+    font-size: 12.5px;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: all .15s;
+    border-left: 3px solid transparent;
+  }
+  nav a:hover, nav a.active {
+    color: var(--accent);
+    background: rgba(108,142,245,.08);
+    border-left-color: var(--accent);
+  }
+  nav .nav-section {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--text-dim);
+    padding: 16px 20px 4px;
+  }
+
+  main {
+    margin-left: var(--nav-w);
+    max-width: 860px;
+    padding: 48px 40px 80px;
+    width: 100%;
+  }
+
+  /* DEMO BADGE */
+  .demo-banner {
+    background: rgba(245,158,11,.12);
+    border: 1px solid rgba(245,158,11,.3);
+    border-radius: 8px;
+    padding: 10px 16px;
+    margin-bottom: 32px;
+    font-size: 12px;
+    color: var(--warn);
+  }
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(135deg, #1a1d40 0%, #0d1526 100%);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 40px;
+    margin-bottom: 48px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 200px; height: 200px;
+    background: radial-gradient(circle, rgba(108,142,245,.15) 0%, transparent 70%);
+  }
+  .hero .tag {
+    display: inline-block;
+    background: rgba(108,142,245,.15);
+    color: var(--accent);
+    border: 1px solid rgba(108,142,245,.3);
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    margin-bottom: 12px;
+  }
+  .hero h1 { font-size: 26px; font-weight: 700; line-height: 1.4; margin-bottom: 12px; }
+  .hero p { font-size: 13.5px; color: var(--text-muted); line-height: 1.8; }
+  .meta { display: flex; gap: 24px; margin-top: 20px; flex-wrap: wrap; }
+  .meta-item { font-size: 12px; color: var(--text-dim); }
+  .meta-item strong { color: var(--text); }
+
+  /* SECTIONS */
+  section { margin-bottom: 64px; }
+  h2 {
+    font-size: 20px; font-weight: 700;
+    margin-bottom: 24px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .icon {
+    width: 36px; height: 36px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; flex-shrink: 0;
+  }
+  h3 { font-size: 15px; font-weight: 700; margin: 24px 0 12px; color: var(--text-muted); }
+  p { font-size: 14px; color: var(--text-muted); margin-bottom: 12px; }
+
+  /* CALLOUT */
+  .callout {
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin: 20px 0;
+    font-size: 13.5px;
+    line-height: 1.8;
+  }
+  .callout-title { font-weight: 700; font-size: 12px; letter-spacing: .5px; margin-bottom: 8px; }
+  .callout.insight { background: rgba(108,142,245,.08); border: 1px solid rgba(108,142,245,.2); color: var(--text-muted); }
+  .callout.insight .callout-title { color: var(--accent); }
+  .callout.success { background: rgba(52,211,153,.08); border: 1px solid rgba(52,211,153,.2); color: var(--text-muted); }
+  .callout.success .callout-title { color: var(--accent3); }
+  .callout.warning { background: rgba(245,158,11,.08); border: 1px solid rgba(245,158,11,.2); color: var(--text-muted); }
+  .callout.warning .callout-title { color: var(--warn); }
+
+  /* STATUS GRID */
+  .status-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 20px 0; }
+  .status-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px;
+    font-size: 12.5px;
+  }
+  .status-card .label { font-size: 10px; color: var(--text-dim); margin-bottom: 8px; text-transform: uppercase; letter-spacing: .5px; }
+  .status-card .before { color: var(--danger); margin-bottom: 4px; }
+  .status-card .arrow { color: var(--text-dim); font-size: 12px; margin-bottom: 4px; }
+  .status-card .after { color: var(--accent3); }
+
+  /* SCORE LIST */
+  .score-list { display: flex; flex-direction: column; gap: 12px; margin: 16px 0; }
+  .score-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+  }
+  .score-item.success { border-color: rgba(52,211,153,.3); }
+  .score-item.fail { border-color: rgba(248,113,113,.3); }
+  .score-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+  .score-title { font-size: 14px; font-weight: 700; }
+  .stars { display: flex; gap: 3px; }
+  .star { width: 10px; height: 10px; border-radius: 50%; }
+  .star.on { background: var(--warn); }
+  .star.off { background: var(--surface2); border: 1px solid var(--border); }
+  .score-body { font-size: 13px; color: var(--text-muted); margin-bottom: 8px; }
+  .score-why { font-size: 12px; color: var(--accent3); }
+  .score-gap { font-size: 12px; color: var(--danger); }
+
+  /* PRINCIPLE */
+  .principle {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin-bottom: 16px;
+  }
+  .p-num { font-size: 10px; letter-spacing: .8px; margin-bottom: 6px; font-weight: 700; }
+  .p-num.updated { color: var(--accent3); }
+  .p-num.keep { color: var(--accent); }
+  .p-num.new { color: var(--accent2); }
+  .principle h4 { font-size: 15px; font-weight: 700; margin-bottom: 10px; }
+  .badge {
+    display: inline-block;
+    font-size: 9px; font-weight: 700;
+    padding: 2px 7px; border-radius: 20px;
+    margin-left: 6px; vertical-align: middle;
+  }
+  .badge.updated { background: rgba(52,211,153,.15); color: var(--accent3); }
+  .badge.new { background: rgba(167,139,250,.15); color: var(--accent2); }
+  .badge.keep { background: rgba(108,142,245,.15); color: var(--accent); }
+
+  .old-new { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px; }
+  .old, .new {
+    font-size: 13px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    line-height: 1.6;
+  }
+  .old { background: rgba(248,113,113,.08); border: 1px solid rgba(248,113,113,.2); color: var(--text-muted); }
+  .new { background: rgba(52,211,153,.08); border: 1px solid rgba(52,211,153,.2); color: var(--text-muted); }
+  .lbl { font-size: 10px; font-weight: 700; display: block; margin-bottom: 4px; color: var(--text-dim); }
+
+  /* CRITERIA */
+  .criteria-list { display: flex; flex-direction: column; gap: 8px; margin: 12px 0; }
+  .criteria-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: 6px;
+    padding: 10px 14px;
+    font-size: 13.5px;
+    color: var(--text-muted);
+  }
+
+  /* ROADMAP */
+  .roadmap { display: flex; flex-direction: column; gap: 16px; }
+  .rm-week { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+  .rm-header {
+    padding: 12px 20px;
+    font-size: 13px; font-weight: 700;
+    background: var(--surface2);
+    border-bottom: 1px solid var(--border);
+  }
+  .period { font-size: 11px; font-weight: 400; color: var(--text-dim); margin-left: 8px; }
+  .rm-tasks { padding: 16px 20px; display: flex; flex-direction: column; gap: 10px; }
+  .task-item { display: flex; align-items: flex-start; gap: 10px; font-size: 13.5px; color: var(--text-muted); }
+  .task-item input { margin-top: 3px; flex-shrink: 0; accent-color: var(--accent); }
+  .task-item label { cursor: pointer; line-height: 1.6; }
+
+  /* GOAL GRID */
+  .goal-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .goal-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+  }
+  .goal-card .g-area { font-size: 10px; color: var(--text-dim); margin-bottom: 4px; text-transform: uppercase; letter-spacing: .5px; }
+  .goal-card .g-goal { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+  .goal-card .g-measure { font-size: 12px; color: var(--text-muted); }
+
+  /* CONCLUSION */
+  .conclusion {
+    background: linear-gradient(135deg, #1a1d40 0%, #0d1526 100%);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 40px;
+    text-align: center;
+    margin: 24px 0;
+  }
+  blockquote { font-size: 18px; font-weight: 700; line-height: 2.2; color: var(--text); font-style: normal; }
+
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+  @media (max-width: 768px) {
+    nav { display: none; }
+    main { margin-left: 0; padding: 24px 16px; }
+    .status-grid { grid-template-columns: 1fr 1fr; }
+    .old-new { grid-template-columns: 1fr; }
+    .goal-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">
+    <span>LIFE DESIGN REPORT</span>
+    読書 × 日記 統合分析<br>2026年上半期（デモ）
+  </div>
+  <div class="nav-section">概要</div>
+  <a href="#overview">序章：半年で何が変わったか</a>
+  <div class="nav-section">分析</div>
+  <a href="#scorecard">第1章：習慣の実行スコア</a>
+  <a href="#career">第2章：キャリアの転換点</a>
+  <a href="#self">第3章：自己認識の更新地図</a>
+  <div class="nav-section">指針</div>
+  <a href="#principles">第4章：7つの指針</a>
+  <a href="#roadmap">第5章：実装ロードマップ</a>
+  <div class="nav-section">結論</div>
+  <a href="#conclusion">終章</a>
+</nav>
+
+<main>
+
+  <div class="demo-banner">
+    ⚠ これはシステムの動作を示すデモ版です。書籍・ハイライト・示唆の内容はすべてフィクションです。
+  </div>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="tag">Personal Life Report</div>
+    <h1>読書 × 日記<br>2026年上半期 人生設計書</h1>
+    <p>60冊・1,482件のハイライトと半年分の日記を照合した統合分析。<br>
+    「本から得た理想像」と「実際に生きた記録」の交差点で見えること。</p>
+    <div class="meta">
+      <div class="meta-item">Kindle: <strong>60冊 / 1,482件のハイライト</strong></div>
+      <div class="meta-item">日記: <strong>2026年1〜6月</strong></div>
+      <div class="meta-item">生成日: <strong>2026-06-29</strong></div>
+    </div>
+  </div>
+
+  <!-- 序章 -->
+  <section id="overview">
+    <h2>
+      <div class="icon" style="background:rgba(108,142,245,.15);">🗺</div>
+      序章：半年の構造変化
+    </h2>
+
+    <p>この半年は<strong style="color:var(--text)">仕事・健康・人間関係のすべてで優先順位が書き換わった時期</strong>だった。</p>
+
+    <div class="status-grid">
+      <div class="status-card">
+        <div class="label">仕事</div>
+        <div class="before">❄ 「成果が見えない」（1月）</div>
+        <div class="arrow">↓</div>
+        <div class="after">✓ 分析案件リード（5月）</div>
+      </div>
+      <div class="status-card">
+        <div class="label">健康習慣</div>
+        <div class="before">❄ 運動ゼロ・睡眠崩壊（1月）</div>
+        <div class="arrow">↓</div>
+        <div class="after">✓ 週4ランニング習慣化（4月〜）</div>
+      </div>
+      <div class="status-card">
+        <div class="label">スキル</div>
+        <div class="before">△ 「何を学べばいい？」（1月）</div>
+        <div class="arrow">↓</div>
+        <div class="after">✓ AI×分析の専門領域を確定（3月）</div>
+      </div>
+      <div class="status-card">
+        <div class="label">副業</div>
+        <div class="before">❄ アイデア止まり（2月）</div>
+        <div class="arrow">↓</div>
+        <div class="after">✓ 初案件受注（6月）</div>
+      </div>
+      <div class="status-card">
+        <div class="label">人間関係</div>
+        <div class="before">△ 「職場以外のつながりがない」</div>
+        <div class="arrow">↓</div>
+        <div class="after">✓ 勉強会コミュニティ参加（3月〜）</div>
+      </div>
+      <div class="status-card">
+        <div class="label">お金</div>
+        <div class="before">△ 「将来が不安」（1月）</div>
+        <div class="arrow">↓</div>
+        <div class="after">✓ NISA・積立設計が完了（4月）</div>
+      </div>
+    </div>
+
+    <div class="callout insight">
+      <div class="callout-title">核心的な変化</div>
+      「何かをやらなければ」という焦りから、「この1つに集中する」という選択への転換。
+      Kindle分析で繰り返し出現した「エッセンシャル思考」が、半年後の日記で実際の行動変化として現れている。
+    </div>
+  </section>
+
+  <!-- 第1章 -->
+  <section id="scorecard">
+    <h2>
+      <div class="icon" style="background:rgba(52,211,153,.15);">📊</div>
+      第1章：習慣の実行スコアカード
+    </h2>
+
+    <h3 style="color:var(--accent3)">✅ 定着した習慣</h3>
+    <div class="score-list">
+
+      <div class="score-item success">
+        <div class="score-header">
+          <div class="score-title">朝30分の読書</div>
+          <div class="stars">
+            <div class="star on"></div><div class="star on"></div><div class="star on"></div><div class="star on"></div><div class="star on"></div>
+          </div>
+        </div>
+        <div class="score-body">2月から開始し、5月時点で127日連続。「通勤前の読書が一番集中できる」と日記に繰り返し登場。</div>
+        <div class="score-why">▶ 成功理由：起床という外部イベントに紐付け。スマホより先に本を手に取るルール</div>
+      </div>
+
+      <div class="score-item success">
+        <div class="score-header">
+          <div class="score-title">週4回のランニング（代々木公園）</div>
+          <div class="stars">
+            <div class="star on"></div><div class="star on"></div><div class="star on"></div><div class="star on"></div><div class="star off"></div>
+          </div>
+        </div>
+        <div class="score-body">4月から開始。3週間で「走らないと気持ち悪い」状態になる（4/23日記）。5kmを35分が現在のペース。</div>
+        <div class="score-why">▶ 成功理由：ランニングシューズを玄関に出しておく環境設計。距離でなく「出かける」だけにした</div>
+      </div>
+
+    </div>
+
+    <h3 style="color:var(--danger);margin-top:32px">❌ 失敗し続けた習慣</h3>
+    <div class="score-list">
+
+      <div class="score-item fail">
+        <div class="score-header">
+          <div class="score-title">日記の毎日記録</div>
+          <div class="stars">
+            <div class="star on"></div><div class="star on"></div><div class="star off"></div><div class="star off"></div><div class="star off"></div>
+          </div>
+        </div>
+        <div class="score-body">「毎日書く」と繰り返し宣言するが、週2〜3回が実態。忙しい週は完全に止まる。</div>
+        <div class="score-gap">▶ 失敗理由：完璧主義で「書くなら全部書く」と思っている。3行でいい、というルールが浸透していない</div>
+      </div>
+
+      <div class="score-item fail">
+        <div class="score-header">
+          <div class="score-title">SNS・動画の時間制限</div>
+          <div class="stars">
+            <div class="star on"></div><div class="star off"></div><div class="star off"></div><div class="star off"></div><div class="star off"></div>
+          </div>
+        </div>
+        <div class="score-body">「1日30分以内」と設定するが、平均2時間超が続く。就寝前のショート動画が最大の時間泥棒。</div>
+        <div class="score-gap">▶ 失敗理由：スマホをベッドに持ち込む構造が変わっていない。意志力では対抗不可能</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 第2章 -->
+  <section id="career">
+    <h2>
+      <div class="icon" style="background:rgba(167,139,250,.15);">💼</div>
+      第2章：キャリアの転換点
+    </h2>
+
+    <div class="callout insight">
+      <div class="callout-title">半年で変わったこと</div>
+      1月の日記には「自分が何の専門家かわからない」という記述が繰り返し出る。
+      しかし6月時点では「AI×データ分析の掛け算で自分の市場価値を作る」と明確になっている。
+      この変化は外からの指示ではなく、読書と日記の対話から自然に出てきた。
+    </div>
+
+    <h3>次のキャリアを選ぶための基準（日記×Kindle 抽出）</h3>
+    <div class="criteria-list">
+      <div class="criteria-item">学んだことを即座に仕事に使える環境であること</div>
+      <div class="criteria-item">専門性が積み上がり、3年後に「この人に頼む」と言われる領域があること</div>
+      <div class="criteria-item">チームに「教えられる同僚」が1人以上いること</div>
+      <div class="criteria-item">成果が数字で見えること（曖昧な貢献より明確な指標）</div>
+    </div>
+  </section>
+
+  <!-- 第3章 -->
+  <section id="self">
+    <h2>
+      <div class="icon" style="background:rgba(245,158,11,.15);">🪞</div>
+      第3章：自己認識の更新地図
+    </h2>
+
+    <div class="callout success">
+      <div class="callout-title">日記にしか現れなかった強み：「言語化力」</div>
+      Kindleのハイライト1,482件に「話すのが苦手」「説明が下手」という記述はゼロ。
+      しかし日記には「議事録を褒められた（3/14）」「資料が分かりやすいと言われた（5/2）」が繰り返し登場する。
+      本人が強みと認識していないが、周囲から評価されているスキル。
+    </div>
+
+    <div class="callout warning">
+      <div class="callout-title">課題：「完璧にならないと動けない」という思考パターン</div>
+      4/8「もう少し準備してから始めよう」、5/15「準備が整ったら動く」。
+      Kindle分析でも「完璧主義」への言及が23回登場。行動の遅さの根本原因。
+    </div>
+  </section>
+
+  <!-- 第4章：指針 -->
+  <section id="principles">
+    <h2>
+      <div class="icon" style="background:rgba(108,142,245,.15);">🧭</div>
+      第4章：7つの指針
+    </h2>
+
+    <div class="principle">
+      <div class="p-num updated">指針 1 ・ 更新</div>
+      <h4>「準備」より「1歩目」を先に踏む <span class="badge updated">UPDATED</span></h4>
+      <p>完璧な計画を待って動けなかった半年の反省。日記の「やってみたら意外と進んだ（5/20）」が証拠。</p>
+      <div class="old-new">
+        <div class="old"><span class="lbl">旧</span>準備が整ったら動く。計画を先に完成させる</div>
+        <div class="new"><span class="lbl">新</span>60%できたら動く。残りは動きながら直す</div>
+      </div>
+    </div>
+
+    <div class="principle">
+      <div class="p-num keep">指針 2 ・ 継続</div>
+      <h4>学習は「インプット→その日中にアウトプット」でセットにする <span class="badge keep">KEEP</span></h4>
+      <p>読んだその日に3行でもノートに書いた週と、書かなかった週で記憶定着が明らかに違う（3/30日記）。</p>
+      <p style="color:var(--accent3)">▶ 今後の法則：本を読んだら当日中に「今日の1行」を書く。それだけでいい</p>
+    </div>
+
+    <div class="principle">
+      <div class="p-num updated">指針 3 ・ 強化</div>
+      <h4>スマホは意志力で管理しない。物理的に遠ざける <span class="badge updated">UPDATED</span></h4>
+      <p>SNS・動画制限の失敗データから導いた結論。意志力での対抗は不可能と証明された。</p>
+      <div class="criteria-list" style="margin-top:12px">
+        <div class="criteria-item" style="border-color:rgba(52,211,153,.3)">① 充電器を寝室の外（リビング）に固定</div>
+        <div class="criteria-item" style="border-color:rgba(52,211,153,.3)">② 就寝1時間前はスマホを引き出しにしまう</div>
+        <div class="criteria-item" style="border-color:rgba(52,211,153,.3)">③ 目覚ましをスマートスピーカーに切り替える</div>
+      </div>
+    </div>
+
+    <div class="principle">
+      <div class="p-num new">指針 4 ・ 新規</div>
+      <h4>言語化という強みを意識的に使う <span class="badge new">NEW</span></h4>
+      <p>Kindleには出てこないが日記と同僚評価から繰り返し確認された強み。まだ本人が「強みとして活かす」発想になっていない。</p>
+      <div class="old-new">
+        <div class="old"><span class="lbl">現状</span>褒められても「たまたま」と流す</div>
+        <div class="new"><span class="lbl">新</span>社内発信・ドキュメント化で積極的に使う資産として扱う</div>
+      </div>
+    </div>
+
+    <div class="principle">
+      <div class="p-num keep">指針 5 ・ 維持</div>
+      <h4>ランニングは処方箋として確定 <span class="badge keep">KEEP</span></h4>
+      <p>半年全期間で最も再現性高く気分を改善した行動。「調子が悪い→まず走る」の条件反射を強化する。これ以上の検証は不要。</p>
+    </div>
+
+    <div class="principle">
+      <div class="p-num updated">指針 6 ・ 更新</div>
+      <h4>副業は「1プロジェクト集中」に絞る <span class="badge updated">UPDATED</span></h4>
+      <p>半年間に4つのアイデアを並走させ、どれも完成しなかった。エッセンシャル思考の実践として、今は1つに絞る。</p>
+      <p style="color:var(--accent3)">▶ 現在の1本：AI活用のデータ分析レポート自動化ツール</p>
+    </div>
+
+    <div class="principle">
+      <div class="p-num updated">指針 7 ・ 全面更新</div>
+      <h4>意思決定の最終フィルタ <span class="badge updated">UPDATED</span></h4>
+      <div class="old-new">
+        <div class="old"><span class="lbl">旧フィルタ</span>「これは周囲の期待に応えているか？」</div>
+        <div class="new"><span class="lbl">新フィルタ</span>「これは3年後の自分が誇れる選択か？」</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 第5章：ロードマップ -->
+  <section id="roadmap">
+    <h2>
+      <div class="icon" style="background:rgba(52,211,153,.15);">📅</div>
+      第5章：実装ロードマップ
+    </h2>
+
+    <div class="roadmap">
+      <div class="rm-week">
+        <div class="rm-header">🔧 今週 <span class="period">6/29 〜 7/5</span></div>
+        <div class="rm-tasks">
+          <div class="task-item"><input type="checkbox" id="t1"><label for="t1">充電器をリビングに移動する（今日中に）</label></div>
+          <div class="task-item"><input type="checkbox" id="t2"><label for="t2">副業プロジェクトの「完成形の定義」を1枚の紙に書く</label></div>
+          <div class="task-item"><input type="checkbox" id="t3"><label for="t3">先週の日記を3行でもいいので書く（完璧主義を手放す練習）</label></div>
+        </div>
+      </div>
+
+      <div class="rm-week">
+        <div class="rm-header">📐 今月 <span class="period">7月</span></div>
+        <div class="rm-tasks">
+          <div class="task-item"><input type="checkbox" id="t4"><label for="t4">社内で「AIツール活用」について1回発信する（言語化強みを使う）</label></div>
+          <div class="task-item"><input type="checkbox" id="t5"><label for="t5">副業プロジェクトのMVPを1人に見せられる状態にする</label></div>
+          <div class="task-item"><input type="checkbox" id="t6"><label for="t6">読書ノートの形式を「3行以上書かない」に変更して習慣を再スタート</label></div>
+        </div>
+      </div>
+
+      <div class="rm-week">
+        <div class="rm-header">🎯 今季 <span class="period">7〜9月 / 3ヶ月目標</span></div>
+        <div class="rm-tasks">
+          <div class="goal-grid">
+            <div class="goal-card">
+              <div class="g-area">スキル</div>
+              <div class="g-goal">AI分析ツールを1本公開</div>
+              <div class="g-measure">GitHubまたは社内公開</div>
+            </div>
+            <div class="goal-card">
+              <div class="g-area">健康</div>
+              <div class="g-goal">10km完走</div>
+              <div class="g-measure">9月末のレースエントリー</div>
+            </div>
+            <div class="goal-card">
+              <div class="g-area">発信</div>
+              <div class="g-goal">社内LT or 外部登壇 1回</div>
+              <div class="g-measure">申込み or 実施</div>
+            </div>
+            <div class="goal-card">
+              <div class="g-area">習慣</div>
+              <div class="g-goal">日記週5日の達成率 80%</div>
+              <div class="g-measure">月末に確認</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 終章 -->
+  <section id="conclusion">
+    <h2>
+      <div class="icon" style="background:rgba(167,139,250,.15);">✨</div>
+      終章：下半期のあなた像
+    </h2>
+
+    <div class="callout insight" style="margin-bottom:24px">
+      <div class="callout-title">このレポートの核心</div>
+      <strong>必要なのは新しい知識ではなく、すでに知っていることを実際にやること。</strong><br>
+      60冊の本に残した1,482件のハイライトと半年分の日記が、同じことを言っている。
+    </div>
+
+    <div class="conclusion">
+      <blockquote>
+        「<strong>まず走る。</strong>」<br>
+        「<strong>60%で動く。</strong>」<br>
+        「<strong>1つに絞る。</strong>」<br>
+        「<strong>書いて残す。</strong>」<br>
+        「<strong>今日やる。</strong>」
+      </blockquote>
+    </div>
+
+    <p style="margin-top:24px;font-size:12px;color:var(--text-dim);text-align:center">
+      ※ これはシステムの動作を示すデモ版です。実際の出力では、あなた自身のKindleハイライトと日記が分析されます。<br>
+      Kindle: 60冊・1,482件 ／ 日記: 2026年1〜6月 ／ 生成: 2026-06-29
+    </p>
+  </section>
+
+</main>
+
+<script>
+  document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+    const key = 'demo_task_' + cb.id;
+    cb.checked = localStorage.getItem(key) === 'true';
+    cb.addEventListener('change', () => localStorage.setItem(key, cb.checked));
+  });
+
+  const sections = document.querySelectorAll('section');
+  const navLinks = document.querySelectorAll('nav a');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        navLinks.forEach(a => {
+          a.classList.toggle('active', a.getAttribute('href') === '#' + e.target.id);
+        });
+      }
+    });
+  }, { rootMargin: '-30% 0px -60% 0px' });
+  sections.forEach(s => observer.observe(s));
+</script>
+
+</body>
+</html>

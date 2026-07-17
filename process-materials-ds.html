@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>開発プロセス — 機械学習インタラクティブ教材ジェネレーター</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+JP:wght@400;500;700&family=IBM+Plex+Mono:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d1117;
+    --bg-deep: #090c10;
+    --surface: #151b23;
+    --surface2: #1c242e;
+    --border: #2b3644;
+    --border-strong: #3d4b5c;
+    --amber: #f0a24b;
+    --amber-dim: rgba(240, 162, 75, .12);
+    --teal: #4cc2a8;
+    --teal-dim: rgba(76, 194, 168, .12);
+    --blue: #6aa5e8;
+    --blue-dim: rgba(106, 165, 232, .12);
+    --rose: #e8788a;
+    --rose-dim: rgba(232, 120, 138, .12);
+    --text: #dce4ee;
+    --text-muted: #92a2b5;
+    --text-dim: #5d6c7d;
+    --mono: 'IBM Plex Mono', 'Menlo', monospace;
+    --sans: 'IBM Plex Sans JP', 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif;
+    --nav-w: 248px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; scroll-padding-top: 24px; }
+
+  body {
+    font-family: var(--sans);
+    background:
+      radial-gradient(1200px 600px at 85% -10%, rgba(76,194,168,.06), transparent 60%),
+      radial-gradient(900px 500px at -10% 20%, rgba(240,162,75,.05), transparent 55%),
+      var(--bg);
+    color: var(--text);
+    line-height: 1.85;
+    font-size: 15.5px;
+  }
+
+  ::selection { background: var(--amber); color: #1a1206; }
+
+  /* ---------- side nav ---------- */
+  nav.side {
+    position: fixed;
+    top: 0; left: 0; bottom: 0;
+    width: var(--nav-w);
+    background: var(--bg-deep);
+    border-right: 1px solid var(--border);
+    padding: 28px 0 28px 24px;
+    overflow-y: auto;
+  }
+  nav.side .brand {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: .18em;
+    color: var(--amber);
+    margin-bottom: 4px;
+  }
+  nav.side .brand-sub {
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.5;
+    margin-bottom: 28px;
+    padding-right: 20px;
+  }
+  nav.side a {
+    display: block;
+    color: var(--text-dim);
+    text-decoration: none;
+    font-size: 13px;
+    padding: 7px 20px 7px 0;
+    border-left: 2px solid transparent;
+    padding-left: 14px;
+    margin-left: -16px;
+    transition: color .15s, border-color .15s;
+  }
+  nav.side a:hover { color: var(--text); border-left-color: var(--border-strong); }
+  nav.side a .n {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    color: var(--text-dim);
+    margin-right: 8px;
+  }
+  nav.side .back {
+    margin-top: 32px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+    font-size: 12.5px;
+    color: var(--text-muted);
+  }
+
+  /* ---------- main ---------- */
+  main {
+    margin-left: var(--nav-w);
+    padding: 0 48px 120px;
+  }
+  .wrap { max-width: 860px; margin: 0 auto; }
+
+  section { padding-top: 88px; }
+
+  .sec-label {
+    font-family: var(--mono);
+    font-size: 11.5px;
+    letter-spacing: .22em;
+    color: var(--amber);
+    margin-bottom: 10px;
+  }
+  h2 {
+    font-size: 27px;
+    font-weight: 700;
+    letter-spacing: .01em;
+    line-height: 1.4;
+    margin-bottom: 22px;
+  }
+  h3 {
+    font-size: 17px;
+    font-weight: 700;
+    margin: 40px 0 14px;
+    padding-left: 12px;
+    border-left: 3px solid var(--amber);
+  }
+  p { margin-bottom: 14px; color: var(--text-muted); }
+  p strong, li strong { color: var(--text); font-weight: 700; }
+  ul.plain { margin: 0 0 16px 1.3em; color: var(--text-muted); }
+  ul.plain li { margin-bottom: 6px; }
+
+  code.inline {
+    font-family: var(--mono);
+    font-size: .87em;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1px 6px;
+    color: var(--teal);
+    white-space: nowrap;
+  }
+
+  a.ext { color: var(--blue); text-decoration: none; border-bottom: 1px solid rgba(106,165,232,.35); }
+  a.ext:hover { border-bottom-color: var(--blue); }
+
+  /* ---------- hero ---------- */
+  header.hero {
+    padding: 96px 0 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  .hero .kicker {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: .25em;
+    color: var(--teal);
+    margin-bottom: 18px;
+  }
+  .hero h1 {
+    font-size: clamp(30px, 4.5vw, 44px);
+    font-weight: 700;
+    line-height: 1.35;
+    letter-spacing: .01em;
+    margin-bottom: 20px;
+  }
+  .hero h1 em {
+    font-style: normal;
+    color: var(--amber);
+  }
+  .hero .lede {
+    font-size: 16.5px;
+    color: var(--text-muted);
+    max-width: 40em;
+    margin-bottom: 34px;
+  }
+  .hero-links { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 44px; }
+  .hero-links a {
+    font-family: var(--mono);
+    font-size: 13px;
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    transition: transform .15s, box-shadow .15s;
+  }
+  .hero-links a.primary {
+    background: var(--amber);
+    color: #1a1206;
+    font-weight: 600;
+  }
+  .hero-links a.primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(240,162,75,.3); }
+  .hero-links a.ghost {
+    border: 1px solid var(--border-strong);
+    color: var(--text-muted);
+  }
+  .hero-links a.ghost:hover { color: var(--text); border-color: var(--text-dim); }
+
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 56px;
+  }
+  .stats .cell { background: var(--surface); padding: 18px 20px; }
+  .stats .num {
+    font-family: var(--mono);
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1.3;
+  }
+  .stats .num span { font-size: 13px; color: var(--text-dim); margin-left: 2px; }
+  .stats .lbl { font-size: 11.5px; color: var(--text-dim); letter-spacing: .04em; }
+
+  /* ---------- flow diagram ---------- */
+  .flow { margin: 28px 0 10px; }
+  .flow-node {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 22px;
+    display: grid;
+    grid-template-columns: 118px 1fr;
+    gap: 4px 20px;
+    align-items: baseline;
+    position: relative;
+  }
+  .flow-node .who {
+    grid-row: span 2;
+    align-self: start;
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: .1em;
+    padding: 4px 10px;
+    border-radius: 20px;
+    text-align: center;
+    margin-top: 3px;
+  }
+  .who.human  { background: var(--rose-dim);  color: var(--rose);  border: 1px solid rgba(232,120,138,.3); }
+  .who.gemini { background: var(--blue-dim);  color: var(--blue);  border: 1px solid rgba(106,165,232,.3); }
+  .who.claude { background: var(--amber-dim); color: var(--amber); border: 1px solid rgba(240,162,75,.3); }
+  .who.script { background: var(--teal-dim);  color: var(--teal);  border: 1px solid rgba(76,194,168,.3); }
+  .who.infra  { background: var(--surface2);  color: var(--text-muted); border: 1px solid var(--border-strong); }
+  .flow-node .t { font-weight: 700; color: var(--text); font-size: 15px; }
+  .flow-node .d { grid-column: 2; font-size: 13.5px; color: var(--text-muted); line-height: 1.7; }
+  .flow-node .d code { font-family: var(--mono); font-size: .9em; color: var(--teal); }
+  .flow-arrow {
+    text-align: center;
+    color: var(--text-dim);
+    font-family: var(--mono);
+    font-size: 15px;
+    padding: 6px 0;
+    margin-left: 59px;
+    width: 0;
+  }
+  .flow-legend {
+    display: flex;
+    gap: 18px;
+    flex-wrap: wrap;
+    font-size: 12px;
+    color: var(--text-dim);
+    margin: 18px 0 0;
+  }
+  .flow-legend span::before {
+    content: '●';
+    margin-right: 6px;
+    font-size: 10px;
+  }
+  .flow-legend .lg-human::before  { color: var(--rose); }
+  .flow-legend .lg-gemini::before { color: var(--blue); }
+  .flow-legend .lg-claude::before { color: var(--amber); }
+  .flow-legend .lg-script::before { color: var(--teal); }
+  .flow-legend .lg-infra::before  { color: var(--text-dim); }
+
+  /* ---------- before / after ---------- */
+  .ba {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+    margin: 24px 0;
+  }
+  .ba .col {
+    border-radius: 12px;
+    padding: 24px 24px 20px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+  }
+  .ba .col.after { border-color: rgba(76,194,168,.4); background: linear-gradient(180deg, rgba(76,194,168,.06), var(--surface) 40%); }
+  .ba .tag {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: .18em;
+    display: inline-block;
+    padding: 3px 12px;
+    border-radius: 20px;
+    margin-bottom: 14px;
+  }
+  .ba .before .tag { background: var(--rose-dim); color: var(--rose); }
+  .ba .after  .tag { background: var(--teal-dim); color: var(--teal); }
+  .ba h4 { font-size: 15.5px; margin-bottom: 10px; color: var(--text); }
+  .ba ul { margin-left: 1.2em; font-size: 13.5px; color: var(--text-muted); }
+  .ba li { margin-bottom: 8px; line-height: 1.7; }
+  .ba .metric {
+    margin-top: 16px;
+    padding-top: 14px;
+    border-top: 1px dashed var(--border);
+    font-family: var(--mono);
+    font-size: 13px;
+  }
+  .ba .before .metric { color: var(--rose); }
+  .ba .after  .metric { color: var(--teal); }
+
+  /* ---------- callout ---------- */
+  .callout {
+    border: 1px solid rgba(240,162,75,.35);
+    background: var(--amber-dim);
+    border-radius: 10px;
+    padding: 18px 22px;
+    margin: 24px 0;
+    font-size: 14.5px;
+    color: var(--text);
+  }
+  .callout .c-label {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: .2em;
+    color: var(--amber);
+    margin-bottom: 6px;
+  }
+
+  /* ---------- roles ---------- */
+  .roles { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin: 24px 0; }
+  .role {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+  }
+  .role .r-name {
+    font-family: var(--mono);
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .role.gm .r-name { color: var(--blue); }
+  .role.cc .r-name { color: var(--amber); }
+  .role .r-title { font-size: 13px; color: var(--text-dim); margin-bottom: 14px; }
+  .role ul { margin-left: 1.2em; font-size: 13.5px; color: var(--text-muted); }
+  .role li { margin-bottom: 8px; line-height: 1.7; }
+
+  /* ---------- code blocks ---------- */
+  .codebox { margin: 18px 0 28px; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+  .codebox .cb-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--surface2);
+    border-bottom: 1px solid var(--border);
+    padding: 8px 16px;
+  }
+  .codebox .cb-title {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+  .codebox button.copy {
+    font-family: var(--mono);
+    font-size: 11px;
+    background: transparent;
+    border: 1px solid var(--border-strong);
+    color: var(--text-dim);
+    border-radius: 5px;
+    padding: 3px 12px;
+    cursor: pointer;
+    transition: color .15s, border-color .15s;
+  }
+  .codebox button.copy:hover { color: var(--teal); border-color: var(--teal); }
+  .codebox pre {
+    background: var(--bg-deep);
+    padding: 18px 20px;
+    overflow-x: auto;
+    font-family: var(--mono);
+    font-size: 12.8px;
+    line-height: 1.75;
+    color: #c3cede;
+  }
+  .codebox pre .cm { color: var(--text-dim); }
+  .codebox pre .hl { color: var(--amber); }
+
+  /* ---------- tables ---------- */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 18px 0 28px;
+    font-size: 13.5px;
+  }
+  th {
+    text-align: left;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: .1em;
+    color: var(--text-dim);
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border-strong);
+    white-space: nowrap;
+  }
+  td {
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-muted);
+    vertical-align: top;
+  }
+  td:first-child { color: var(--text); font-weight: 500; }
+  td code { font-family: var(--mono); font-size: .9em; color: var(--teal); }
+  .dep { color: var(--rose); font-family: var(--mono); font-size: 11px; }
+
+  /* ---------- takeaways ---------- */
+  .takeaways { counter-reset: tw; margin: 28px 0; }
+  .tw {
+    display: grid;
+    grid-template-columns: 56px 1fr;
+    gap: 20px;
+    padding: 24px 0;
+    border-top: 1px solid var(--border);
+  }
+  .tw:last-child { border-bottom: 1px solid var(--border); }
+  .tw::before {
+    counter-increment: tw;
+    content: '0' counter(tw);
+    font-family: var(--mono);
+    font-size: 26px;
+    color: var(--amber);
+    line-height: 1.2;
+  }
+  .tw h4 { font-size: 16px; margin-bottom: 6px; color: var(--text); }
+  .tw p { font-size: 13.5px; margin: 0; }
+
+  footer {
+    margin-top: 80px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    font-family: var(--mono);
+    font-size: 11.5px;
+    color: var(--text-dim);
+    letter-spacing: .06em;
+  }
+
+  /* ---------- reveal animation ---------- */
+  .reveal { opacity: 0; transform: translateY(14px); transition: opacity .6s ease, transform .6s ease; }
+  .reveal.in { opacity: 1; transform: none; }
+
+  /* ---------- responsive ---------- */
+  @media (max-width: 960px) {
+    nav.side { display: none; }
+    main { margin-left: 0; padding: 0 22px 80px; }
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    .ba, .roles { grid-template-columns: 1fr; }
+    .flow-node { grid-template-columns: 1fr; }
+    .flow-node .who { grid-row: auto; justify-self: start; margin-bottom: 6px; }
+    .flow-node .d { grid-column: 1; }
+    .flow-arrow { margin-left: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="side">
+  <div class="brand">DEV PROCESS</div>
+  <div class="brand-sub">機械学習インタラクティブ教材ジェネレーター</div>
+  <a href="#overview"><span class="n">01</span>つくったもの</a>
+  <a href="#flow"><span class="n">02</span>システム全体フロー</a>
+  <a href="#evolution"><span class="n">03</span>開発フローの進化</a>
+  <a href="#roles"><span class="n">04</span>AIの役割分担</a>
+  <a href="#prompts"><span class="n">05</span>実際のプロンプト</a>
+  <a href="#ops"><span class="n">06</span>運用の仕組み</a>
+  <a href="#tech"><span class="n">07</span>教材の技術構成</a>
+  <a href="#takeaways"><span class="n">08</span>まとめ・学び</a>
+  <div class="back">
+    <a href="ai-examples.html" style="margin-left:16px;">← AI活用事例一覧へ</a>
+  </div>
+</nav>
+
+<main>
+<div class="wrap">
+
+  <header class="hero">
+    <div class="kicker">AI DEVELOPMENT CASE STUDY</div>
+    <h1>書籍1冊を、<em>触って学べるWeb教材</em>に。<br>その作成プロセスの全記録</h1>
+    <p class="lede">
+      機械学習の専門書を、クイズ・Canvasデモ・進捗トラッキング付きのインタラクティブHTML教材に変換する自動生成システム。
+      Gemini と Claude Code の役割分担、そして「LLMに書かせる」から「LLMにジェネレーターを作らせる」への転換が、このプロジェクトの核心です。
+    </p>
+    <div class="hero-links">
+      <a class="primary" href="https://materials-ds.pages.dev/" target="_blank" rel="noopener">materials-ds.pages.dev ↗</a>
+      <a class="ghost" href="#prompts">プロンプトを見る ↓</a>
+    </div>
+    <div class="stats">
+      <div class="cell"><div class="num">3<span>冊</span></div><div class="lbl">教材化した書籍</div></div>
+      <div class="cell"><div class="num">17<span>章</span></div><div class="lbl">JSON化した章データ</div></div>
+      <div class="cell"><div class="num">1,399<span>行</span></div><div class="lbl">gen_html.py（自作ジェネレーター）</div></div>
+      <div class="cell"><div class="num">0<span>トークン</span></div><div class="lbl">v2でのHTML生成コスト</div></div>
+    </div>
+  </header>
+
+  <!-- ============ 01 ============ -->
+  <section id="overview" class="reveal">
+    <div class="sec-label">SECTION 01</div>
+    <h2>つくったもの</h2>
+    <p>
+      「Kaggleで勝つデータ分析の技術」「BERTによる自然言語処理入門」などの専門書を、
+      <strong>章ごとの単一HTMLファイル</strong>として教材化するシステムです。
+      各章にはセクション解説・数式（KaTeX）・Pythonコード・確認クイズ・用語集に加え、
+      混同行列シミュレーターやROC曲線アニメーションなどの<strong>Canvasインタラクティブデモ</strong>が組み込まれています。
+    </p>
+    <p>
+      教材の原稿はすべて <code class="inline">chapter-N.json</code> という構造化データに集約し、
+      そこからHTMLをPythonスクリプトで自動生成。GitHubにpushすると Cloudflare Pages が自動デプロイし、
+      スマホからも学習できます。
+    </p>
+    <h3>なぜ作ったか</h3>
+    <p>
+      書籍PDFを読むだけの学習は受動的になりがちで、手を動かす仕組みと進捗の可視化が欲しかったためです。
+      加えて実務案件（機械学習系）に向けた事前学習を、体系的かつ再利用可能な形で残す狙いもありました。
+    </p>
+  </section>
+
+  <!-- ============ 02 ============ -->
+  <section id="flow" class="reveal">
+    <div class="sec-label">SECTION 02</div>
+    <h2>システム全体フロー</h2>
+    <p>1章の教材ができるまでの流れです。<strong>誰が（どのAIが）どの工程を担うか</strong>に注目してください。</p>
+
+    <div class="flow">
+      <div class="flow-node">
+        <span class="who human">人間</span>
+        <span class="t">書籍の章を決める</span>
+        <span class="d">教材化したい章を決め、そのPDFを用意する。</span>
+      </div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-node">
+        <span class="who gemini">Gemini</span>
+        <span class="t">PDF完全抽出 → Markdown化</span>
+        <span class="d">書籍PDFから情報を<strong>要約せず・落とさず</strong>完全抽出。結果を <code>.md</code> ファイルで持ち帰る（最大116KB/章）。</span>
+      </div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-node">
+        <span class="who claude">Claude Code</span>
+        <span class="t">chapter-N.json に構造化</span>
+        <span class="d">MDを教材スキーマ（sections / equations / code_examples / quiz / glossary / visual_descriptions）に変換。<strong>JSONが教材の唯一の原点</strong>。</span>
+      </div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-node">
+        <span class="who script">Python</span>
+        <span class="t">gen_html.py で単一HTMLを生成</span>
+        <span class="d"><code>python3 gen_html.py chapter-N.json</code> の1コマンド。React・KaTeX・クイズ・ダークモード・Canvasデモをすべて含むHTMLが<strong>数秒・トークン消費ゼロ</strong>で完成。</span>
+      </div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-node">
+        <span class="who infra">GitHub + CF</span>
+        <span class="t">git push → Cloudflare Pages 自動デプロイ</span>
+        <span class="d">リポジトリ <code>materials_ds</code> にpushするだけで materials-ds.pages.dev に公開。</span>
+      </div>
+    </div>
+    <div class="flow-legend">
+      <span class="lg-human">人間の判断</span>
+      <span class="lg-gemini">Gemini（抽出）</span>
+      <span class="lg-claude">Claude Code（構造化・開発）</span>
+      <span class="lg-script">Pythonスクリプト（機械的変換）</span>
+      <span class="lg-infra">インフラ（自動）</span>
+    </div>
+  </section>
+
+  <!-- ============ 03 ============ -->
+  <section id="evolution" class="reveal">
+    <div class="sec-label">SECTION 03</div>
+    <h2>開発フローの進化 — このプロジェクト最大の学び</h2>
+    <p>
+      最初からこの形だったわけではありません。初期は<strong>Claude自身が章HTMLを丸ごと書いて</strong>いました。
+      1章あたり2,000行。動きはするものの、トークン消費が激しく、章を増やすほどコストと時間がかさむ構造でした。
+    </p>
+    <p>
+      転機は「JSONからHTMLへの変換は、実は機械的なテンプレート作業では？」という気づきです。
+      そこで<strong>Claude Codeに、HTML生成を代行するPythonスクリプト（gen_html.py）を作らせました</strong>。
+      LLMは「創造が必要な工程」（原稿の構造化・デモの設計）だけに集中し、機械的な変換はスクリプトに任せる分業です。
+    </p>
+
+    <div class="ba">
+      <div class="col before">
+        <span class="tag">BEFORE — v1</span>
+        <h4>LLMがHTMLを直接書く</h4>
+        <ul>
+          <li>1章 = 約2,000行のHTMLをその都度生成</li>
+          <li>章ごとに大量のトークンを消費</li>
+          <li>生成に時間がかかり、細部の品質もばらつく</li>
+          <li>デザイン変更 = 全章を書き直し</li>
+        </ul>
+        <div class="metric">コスト: 章数に比例して増加</div>
+      </div>
+      <div class="col after">
+        <span class="tag">AFTER — v2</span>
+        <h4>LLMが作ったジェネレーターが書く</h4>
+        <ul>
+          <li><code class="inline">gen_html.py</code>（1,399行）がJSON→HTML変換を全自動化</li>
+          <li>HTML生成のトークン消費<strong>ゼロ</strong>・所要<strong>数秒</strong></li>
+          <li>全章で同一品質・同一デザインを保証</li>
+          <li>機能追加（進捗ボタン・ストリーク等）はスクリプト修正＋全章再生成で一括反映</li>
+        </ul>
+        <div class="metric">コスト: 章数によらず一定（≒0）</div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <div class="c-label">KEY INSIGHT</div>
+      LLMに成果物を書かせ続けるのではなく、<strong>成果物を作る道具をLLMに作らせる</strong>。
+      繰り返し発生する定型生成があるなら、それはスクリプト化のサインでした。
+    </div>
+
+    <h3>もうひとつの工夫: 巨大MDの分割生成パターン</h3>
+    <p>
+      Geminiが抽出したMDが100KBを超える章（3章は116KB）は、1エージェントのコンテキストに収まりません。
+      そこで<strong>2つのサブエージェントに前半セクション／後半セクション＋クイズ・用語集を分担</strong>させ、
+      中間JSONをPythonで結合するパターンを確立しました。以降の大型章はすべてこの方式で処理しています。
+    </p>
+  </section>
+
+  <!-- ============ 04 ============ -->
+  <section id="roles" class="reveal">
+    <div class="sec-label">SECTION 04</div>
+    <h2>AIの役割分担 — Gemini × Claude Code</h2>
+    <p>
+      1つのAIに全部やらせるのではなく、<strong>得意分野で分業</strong>させています。
+      分担の境界は「長文の読解・抽出はGemini、構造化・コーディング・ファイル操作はClaude Code」です。
+    </p>
+    <div class="roles">
+      <div class="role gm">
+        <div class="r-name">Gemini</div>
+        <div class="r-title">抽出担当（ブラウザのチャットで実行）</div>
+        <ul>
+          <li>書籍PDFからの<strong>完全抽出</strong>（要約せず情報を落とさない）→ MD化</li>
+          <li>教材閲覧中の「選択テキストをGeminiに質問」ボタンにも活用</li>
+        </ul>
+      </div>
+      <div class="role cc">
+        <div class="r-name">Claude Code</div>
+        <div class="r-title">構造化・開発担当（ターミナルで実行）</div>
+        <ul>
+          <li>MD → <code class="inline">chapter-N.json</code> への構造化（スキーマ準拠）</li>
+          <li><code class="inline">gen_html.py</code> と Canvasデモ8本の開発</li>
+          <li>自作スキルの運用、WORKLOG自動記録、git操作</li>
+        </ul>
+      </div>
+    </div>
+    <p>
+      人間の役割は「章の決定」「GeminiへのPDF投下と抽出結果の持ち帰り」「品質の最終確認」の3点に絞られています。
+    </p>
+  </section>
+
+  <!-- ============ 05 ============ -->
+  <section id="prompts" class="reveal">
+    <div class="sec-label">SECTION 05</div>
+    <h2>実際のプロンプト（全文）</h2>
+    <p>
+      Claude Code への指示は、その場のチャットではなく<strong>プロジェクト直下の CLAUDE.md（指示書ファイル）</strong>に書いて運用しています。
+      毎セッション自動で読み込まれるため、同じ指示を繰り返す必要がありません。その主要部分を掲載します。
+    </p>
+
+    <h3>① CLAUDE.md「HTML生成の絶対ルール」</h3>
+    <p>
+      v2フローを<strong>絶対ルールとして明文化</strong>したものです。これにより翌日以降のセッションでも、
+      指示しなくても正しいフローに乗ります。
+    </p>
+
+    <div class="codebox">
+      <div class="cb-head"><span class="cb-title">.claude/CLAUDE.md — HTML生成の絶対ルール（抜粋）</span><button class="copy">copy</button></div>
+      <pre><span class="hl">## ★ HTML生成の絶対ルール（最重要）</span>
+
+<span class="hl">**HTMLは必ず `gen_html.py` で生成する。LLMがHTMLを直接書いてはならない。**</span>
+
+```bash
+python3 text_kaggle_win/gen_html.py text_kaggle_win/chapter-N.json
+```
+
+- このスクリプトは任意の chapter-N.json を受け取り、chapter-N.html を出力する
+- React / KaTeX / Prism.js / ダークモード / サイドバー / クイズ / 用語集 をすべて含む
+- インタラクティブデモ（RankGauss・Target Encoding OOF・Wide-Long Format）は実装済み
+- 未知の visual_descriptions は ui_instruction テキストを表示するプレースホルダーにフォールバック
+- `/kaggle-chapter-html` スキルは廃止。スクリプトに一本化。</pre>
+    </div>
+
+    <h3>② CLAUDE.md「作業記録の自律更新ルール」</h3>
+    <p>
+      作業ログも人間が書くのではなく、<strong>Claude Codeが節目ごとに自動追記</strong>する仕組みにしています。
+      本ページの「開発フローの進化」の記述も、この自動記録された WORKLOG.md が情報源です。
+    </p>
+
+    <div class="codebox">
+      <div class="cb-head"><span class="cb-title">.claude/CLAUDE.md — 作業記録ルール（抜粋）</span><button class="copy">copy</button></div>
+      <pre><span class="hl">## 作業記録ルール（自律更新・必須）</span>
+
+以下の節目で、ユーザーの指示を待たず <span class="hl">**自律的に**</span> WORKLOG.md に追記すること：
+
+- JSONの更新完了（どの章が完了したか）
+- HTMLの生成完了（どの章が完了したか）
+- gen_html.py の機能追加・修正
+- エラーの解決（何が起きて何で解決したか）
+- 新しい作業パターンの確立
+
+**更新対象ファイル**: `data_science/WORKLOG.md`</pre>
+    </div>
+  </section>
+
+  <!-- ============ 06 ============ -->
+  <section id="ops" class="reveal">
+    <div class="sec-label">SECTION 06</div>
+    <h2>運用の仕組み — 再現するためのコツ</h2>
+
+    <h3>自作スキル（スラッシュコマンド）で定型作業をワンコマンド化</h3>
+    <p>
+      Claude Code の「スキル」機能で、繰り返し作業を再利用可能なコマンドにしています。
+      注目は<strong>廃止したスキルも「廃止」と明記して残している</strong>こと。
+      CLAUDE.md に廃止理由まで書いておくことで、将来のセッションが古いフローに戻るのを防ぎます。
+    </p>
+    <table>
+      <thead><tr><th>スキル</th><th>起動コマンド</th><th>役割</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>md-rationale-builder</td>
+          <td><code>/md-rationale &lt;md&gt;</code></td>
+          <td>「なぜこの学習が必要か」を解説するSVG図解付き資料を生成</td>
+        </tr>
+        <tr>
+          <td>creat-text-chapter-html <span class="dep">DEPRECATED</span></td>
+          <td><code>/kaggle-chapter-html &lt;json&gt;</code></td>
+          <td>旧v1のLLMベースHTML生成。gen_html.py に一本化して<strong>廃止</strong></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>CLAUDE.md による「自己文書化」</h3>
+    <p>
+      ディレクトリ構成・ワークフロー・絶対ルール・廃止情報をすべて CLAUDE.md に集約。
+      Claude Code はセッション開始時にこれを読むため、<strong>プロジェクトの説明を毎回し直す必要がありません</strong>。
+      「AIへの指示書をコードと一緒にバージョン管理する」のがポイントです。
+    </p>
+
+    <h3>教材原稿のスキーマ（chapter-N.json）</h3>
+    <p>原稿を以下の構造に統一することで、ジェネレーターが機械的にHTML化できます。</p>
+    <div class="codebox">
+      <div class="cb-head"><span class="cb-title">chapter-N.json の構造</span><button class="copy">copy</button></div>
+      <pre>{
+  "chapter_number": 5,
+  "chapter_title": "...",
+  "overview": "...",
+  "sections": [
+    {
+      "section_id": "...",
+      "title": "...",
+      "concept_summary": "...",          <span class="cm">// 概念の要約</span>
+      "detailed_explanations": [...],    <span class="cm">// 詳細解説</span>
+      "key_characteristics": [...],      <span class="cm">// 重要ポイント</span>
+      "author_opinions_and_warnings": [...],
+      "tables": [...],
+      "equations": [...],                <span class="cm">// LaTeX数式</span>
+      "code_examples": [...],            <span class="cm">// Pythonコード</span>
+      "visual_descriptions": [...]       <span class="cm">// Canvasデモの指定</span>
+    }
+  ],
+  "quiz": [...],                         <span class="cm">// 確認クイズ</span>
+  "glossary": [...]                      <span class="cm">// 用語集</span>
+}</pre>
+    </div>
+  </section>
+
+  <!-- ============ 07 ============ -->
+  <section id="tech" class="reveal">
+    <div class="sec-label">SECTION 07</div>
+    <h2>教材の技術構成</h2>
+    <p>
+      生成される教材HTMLは<strong>単一ファイル・ビルド不要</strong>で動きます。
+      CDNのライブラリを読み込むだけなので、生成物をそのまま配布・ホスティングできます。
+    </p>
+    <table>
+      <thead><tr><th>技術</th><th>用途</th></tr></thead>
+      <tbody>
+        <tr><td>React 18 + Babel Standalone（CDN）</td><td>UIコンポーネント（ビルドなしでJSXを実行）</td></tr>
+        <tr><td>KaTeX</td><td>数式レンダリング</td></tr>
+        <tr><td>Prism.js</td><td>Pythonコードのシンタックスハイライト</td></tr>
+        <tr><td>Canvas API</td><td>混同行列・ROC曲線・CV分割などのインタラクティブデモ8本</td></tr>
+        <tr><td>LocalStorage + Firebase Firestore</td><td>学習進捗・ハイライト・メモの保存</td></tr>
+        <tr><td>GitHub + Cloudflare Pages</td><td>push だけで自動デプロイ・無料ホスティング</td></tr>
+      </tbody>
+    </table>
+
+    <h3>継続学習を支える仕掛け（study-tools.js ほか）</h3>
+    <ul class="plain">
+      <li><strong>テキストハイライト・付箋メモ・ブックマーク</strong> — 紙の本でやることをWeb教材上で再現</li>
+      <li><strong>セクション読了ボタン・クイズスコア記録</strong> — ダッシュボードに章ごとの進捗バーを表示</li>
+      <li><strong>🔥 連続学習ストリーク・「前回の続きから」</strong> — 学習の習慣化を後押し</li>
+      <li><strong>Gemini質問ボタン</strong> — 選択したテキストをそのままGeminiに投げて深掘り</li>
+    </ul>
+  </section>
+
+  <!-- ============ 08 ============ -->
+  <section id="takeaways" class="reveal">
+    <div class="sec-label">SECTION 08</div>
+    <h2>まとめ — 持ち帰れる3つの学び</h2>
+    <div class="takeaways">
+      <div class="tw">
+        <div>
+          <h4>LLMに成果物を書かせず、ジェネレーターを作らせる</h4>
+          <p>定型的な生成が繰り返されるなら、それをスクリプト化する方が速く・安く・品質も安定します。LLMの出番は「構造化」と「道具づくり」に寄せる。</p>
+        </div>
+      </div>
+      <div class="tw">
+        <div>
+          <h4>AIごとの得意分野で分業する</h4>
+          <p>長文PDFの完全抽出はGemini、構造化・コーディング・ファイル操作はClaude Code。「要約せず情報を落とさず抽出させる」ことで、教材の情報密度が決まります。</p>
+        </div>
+      </div>
+      <div class="tw">
+        <div>
+          <h4>ルールと記録をAIに読ませる形で残す（CLAUDE.md / WORKLOG）</h4>
+          <p>「絶対ルール」「廃止情報」「作業ログの自動追記」を指示書として残すことで、セッションをまたいでもAIが正しいフローを維持します。この資料自体、自動記録されたWORKLOGから書き起こしたものです。</p>
+        </div>
+      </div>
+    </div>
+    <p style="margin-top:28px;">
+      実物はこちらから触れます → <a class="ext" href="https://materials-ds.pages.dev/" target="_blank" rel="noopener">materials-ds.pages.dev</a>
+    </p>
+  </section>
+
+  <footer>
+    DEV PROCESS — ML INTERACTIVE MATERIALS GENERATOR ／ SOURCE: WORKLOG.md &amp; CLAUDE.md (2026-05 〜)
+  </footer>
+
+</div>
+</main>
+
+<script>
+  // copy buttons
+  document.querySelectorAll('.codebox').forEach(function (box) {
+    var btn = box.querySelector('button.copy');
+    var pre = box.querySelector('pre');
+    if (!btn || !pre) return;
+    btn.addEventListener('click', function () {
+      navigator.clipboard.writeText(pre.innerText).then(function () {
+        btn.textContent = 'copied!';
+        setTimeout(function () { btn.textContent = 'copy'; }, 1500);
+      });
+    });
+  });
+
+  // scroll reveal
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.06 });
+  document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
+</script>
+
+</body>
+</html>

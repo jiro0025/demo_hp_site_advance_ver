@@ -29,7 +29,8 @@ web_production_advance/
 ├── ai-examples.html             # ★ AI活用事例一覧（25カード・カテゴリ/ステータスフィルター）
 ├── ai-examples-showcase.html    # ★ グループ会向け深掘りページ（事例01=教材システム / 事例02=Kindle分析）
 ├── kindle-demo.html             # 単体デモ: 読書×日記 人生設計書（完全インラインCSS・ダークテーマ）
-├── process-materials-ds.html    # 単体資料: 教材ジェネレーターの開発プロセス全記録（完全インラインCSS・ダークテーマ）
+├── process-materials-ds.html    # 単体資料: 教材ジェネレーターの開発プロセス全記録（完全インラインCSS・ダークテーマ・アンバー主体）
+├── process-kindle-insights.html # 単体資料: Kindle7層分析の開発プロセス全記録（同デザイン・ティール主体）
 ├── css/
 │   ├── variables.css            # デザイントークン（下記参照）
 │   ├── base.css                 # リセット・ベース
@@ -49,7 +50,7 @@ web_production_advance/
 | 系統 | ページ | CSSの持ち方 |
 |---|---|---|
 | 通常ページ | index / projects / journal / about / contact / ai-examples | `css/` の共有CSSを `<link>` で読み込む |
-| スタンドアロン | kindle-demo / process-materials-ds | **全CSSをインライン**で持つ独立ページ（ダークテーマ・共有CSSに依存しない） |
+| スタンドアロン | kindle-demo / process-materials-ds / process-kindle-insights | **全CSSをインライン**で持つ独立ページ（ダークテーマ・共有CSSに依存しない） |
 | ハイブリッド | ai-examples-showcase | 共有CSS + ページ内 `<style>` の大量の固有スタイル |
 
 スタンドアロンページを編集する際、共有CSSのクラスは使えない（逆も同様）。
@@ -128,7 +129,8 @@ AI活用事例のカード一覧。カードは `<article class="case-card fade-
   - 実物リンク: https://materials-ds.pages.dev/（フレーム下の「実際のサイトを開く ↗」）
   - 開発フロー直下に `process-materials-ds.html` への CTA ボタンあり
 - 事例02: Kindleハイライト7層分析（アクセント: ティール系 `--c2`）
-  - デモ: `kindle-demo.html`
+  - デモ: `kindle-demo.html`（フレーム下の「デモを開く ↗」）
+  - 開発フロー直下に `process-kindle-insights.html` への CTA ボタンあり
 - 固有スタイルはページ内 `<style>`（`.case-section` `.flow-row` `.browser-frame` `.toc-chip` 等）
 
 ---
@@ -141,6 +143,14 @@ materials-ds.pages.dev（ソース: `~/workspace/study/data_science`、GitHub `j
 - 実際のフロー: 書籍PDF → Gemini完全抽出MD → chapter-N.json → gen_html.py → push → Cloudflare Pages
 - **注意**: `/research-to-material`（Gemini 4観点調査）は教材リポジトリのREADMEに載っているが**実際には未使用**（本人確認済み）。この資料に含めないこと
 - 導線: ai-examples.html カード18 と ai-examples-showcase.html 事例01 からリンクされている
+
+## process-kindle-insights.html（Kindle分析の開発プロセス資料）
+
+Kindleハイライト7層分析 → 人生設計書（ソース: `~/workspace/obsidian/kindle/`、ワークフローの正典は `HANDOFF-life-insights.md`）
+の作成プロセスをまとめたスタンドアロン資料。process-materials-ds.html と同一デザイン（ティール主体）。
+
+- **プライバシー制約**: 家族の実名・統合レポート本文の個人的内容は掲載禁止（タグは「家族タグ3種」と一般化済み）。編集時もこの制約を維持すること
+- 導線: ai-examples.html カード19 と ai-examples-showcase.html 事例02 からリンクされている
 
 ---
 

@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>開発プロセス — Kindleハイライト7層分析と人生設計書</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+JP:wght@400;500;700&family=IBM+Plex+Mono:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d1117;
+    --bg-deep: #090c10;
+    --surface: #151b23;
+    --surface2: #1c242e;
+    --border: #2b3644;
+    --border-strong: #3d4b5c;
+    --amber: #f0a24b;
+    --amber-dim: rgba(240, 162, 75, .12);
+    --teal: #4cc2a8;
+    --teal-dim: rgba(76, 194, 168, .12);
+    --blue: #6aa5e8;
+    --blue-dim: rgba(106, 165, 232, .12);
+    --rose: #e8788a;
+    --rose-dim: rgba(232, 120, 138, .12);
+    --text: #dce4ee;
+    --text-muted: #92a2b5;
+    --text-dim: #5d6c7d;
+    --mono: 'IBM Plex Mono', 'Menlo', monospace;
+    --sans: 'IBM Plex Sans JP', 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif;
+    --nav-w: 248px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; scroll-padding-top: 24px; }
+
+  body {
+    font-family: var(--sans);
+    background:
+      radial-gradient(1200px 600px at 85% -10%, rgba(240,162,75,.05), transparent 60%),
+      radial-gradient(900px 500px at -10% 20%, rgba(76,194,168,.06), transparent 55%),
+      var(--bg);
+    color: var(--text);
+    line-height: 1.85;
+    font-size: 15.5px;
+  }
+
+  ::selection { background: var(--teal); color: #06201a; }
+
+  /* ---------- side nav ---------- */
+  nav.side {
+    position: fixed;
+    top: 0; left: 0; bottom: 0;
+    width: var(--nav-w);
+    background: var(--bg-deep);
+    border-right: 1px solid var(--border);
+    padding: 28px 0 28px 24px;
+    overflow-y: auto;
+  }
+  nav.side .brand {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: .18em;
+    color: var(--teal);
+    margin-bottom: 4px;
+  }
+  nav.side .brand-sub {
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.5;
+    margin-bottom: 28px;
+    padding-right: 20px;
+  }
+  nav.side a {
+    display: block;
+    color: var(--text-dim);
+    text-decoration: none;
+    font-size: 13px;
+    padding: 7px 20px 7px 0;
+    border-left: 2px solid transparent;
+    padding-left: 14px;
+    margin-left: -16px;
+    transition: color .15s, border-color .15s;
+  }
+  nav.side a:hover { color: var(--text); border-left-color: var(--border-strong); }
+  nav.side a .n {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    color: var(--text-dim);
+    margin-right: 8px;
+  }
+  nav.side .back {
+    margin-top: 32px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+    font-size: 12.5px;
+    color: var(--text-muted);
+  }
+
+  /* ---------- main ---------- */
+  main {
+    margin-left: var(--nav-w);
+    padding: 0 48px 120px;
+  }
+  .wrap { max-width: 860px; margin: 0 auto; }
+
+  section { padding-top: 88px; }
+
+  .sec-label {
+    font-family: var(--mono);
+    font-size: 11.5px;
+    letter-spacing: .22em;
+    color: var(--teal);
+    margin-bottom: 10px;
+  }
+  h2 {
+    font-size: 27px;
+    font-weight: 700;
+    letter-spacing: .01em;
+    line-height: 1.4;
+    margin-bottom: 22px;
+  }
+  h3 {
+    font-size: 17px;
+    font-weight: 700;
+    margin: 40px 0 14px;
+    padding-left: 12px;
+    border-left: 3px solid var(--teal);
+  }
+  p { margin-bottom: 14px; color: var(--text-muted); }
+  p strong, li strong { color: var(--text); font-weight: 700; }
+  ul.plain { margin: 0 0 16px 1.3em; color: var(--text-muted); }
+  ul.plain li { margin-bottom: 6px; }
+
+  code.inline {
+    font-family: var(--mono);
+    font-size: .87em;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1px 6px;
+    color: var(--teal);
+    white-space: nowrap;
+  }
+
+  a.ext { color: var(--blue); text-decoration: none; border-bottom: 1px solid rgba(106,165,232,.35); }
+  a.ext:hover { border-bottom-color: var(--blue); }
+
+  /* ---------- hero ---------- */
+  header.hero {
+    padding: 96px 0 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  .hero .kicker {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: .25em;
+    color: var(--amber);
+    margin-bottom: 18px;
+  }
+  .hero h1 {
+    font-size: clamp(30px, 4.5vw, 44px);
+    font-weight: 700;
+    line-height: 1.35;
+    letter-spacing: .01em;
+    margin-bottom: 20px;
+  }
+  .hero h1 em {
+    font-style: normal;
+    color: var(--teal);
+  }
+  .hero .lede {
+    font-size: 16.5px;
+    color: var(--text-muted);
+    max-width: 40em;
+    margin-bottom: 34px;
+  }
+  .hero-links { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 44px; }
+  .hero-links a {
+    font-family: var(--mono);
+    font-size: 13px;
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    transition: transform .15s, box-shadow .15s;
+  }
+  .hero-links a.primary {
+    background: var(--teal);
+    color: #06201a;
+    font-weight: 600;
+  }
+  .hero-links a.primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(76,194,168,.3); }
+  .hero-links a.ghost {
+    border: 1px solid var(--border-strong);
+    color: var(--text-muted);
+  }
+  .hero-links a.ghost:hover { color: var(--text); border-color: var(--text-dim); }
+
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 56px;
+  }
+  .stats .cell { background: var(--surface); padding: 18px 20px; }
+  .stats .num {
+    font-family: var(--mono);
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1.3;
+  }
+  .stats .num span { font-size: 13px; color: var(--text-dim); margin-left: 2px; }
+  .stats .lbl { font-size: 11.5px; color: var(--text-dim); letter-spacing: .04em; }
+
+  /* ---------- flow diagram ---------- */
+  .flow { margin: 28px 0 10px; }
+  .flow-node {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 22px;
+    display: grid;
+    grid-template-columns: 118px 1fr;
+    gap: 4px 20px;
+    align-items: baseline;
+    position: relative;
+  }
+  .flow-node .who {
+    grid-row: span 2;
+    align-self: start;
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: .1em;
+    padding: 4px 10px;
+    border-radius: 20px;
+    text-align: center;
+    margin-top: 3px;
+  }
+  .who.human  { background: var(--rose-dim);  color: var(--rose);  border: 1px solid rgba(232,120,138,.3); }
+  .who.claude { background: var(--teal-dim);  color: var(--teal);  border: 1px solid rgba(76,194,168,.3); }
+  .who.script { background: var(--amber-dim); color: var(--amber); border: 1px solid rgba(240,162,75,.3); }
+  .who.infra  { background: var(--surface2);  color: var(--text-muted); border: 1px solid var(--border-strong); }
+  .flow-node .t { font-weight: 700; color: var(--text); font-size: 15px; }
+  .flow-node .d { grid-column: 2; font-size: 13.5px; color: var(--text-muted); line-height: 1.7; }
+  .flow-node .d code { font-family: var(--mono); font-size: .9em; color: var(--teal); }
+  .flow-arrow {
+    text-align: center;
+    color: var(--text-dim);
+    font-family: var(--mono);
+    font-size: 15px;
+    padding: 6px 0;
+    margin-left: 59px;
+    width: 0;
+  }
+  .flow-legend {
+    display: flex;
+    gap: 18px;
+    flex-wrap: wrap;
+    font-size: 12px;
+    color: var(--text-dim);
+    margin: 18px 0 0;
+  }
+  .flow-legend span::before {
+    content: '●';
+    margin-right: 6px;
+    font-size: 10px;
+  }
+  .flow-legend .lg-human::before  { color: var(--rose); }
+  .flow-legend .lg-claude::before { color: var(--teal); }
+  .flow-legend .lg-script::before { color: var(--amber); }
+  .flow-legend .lg-infra::before  { color: var(--text-dim); }
+
+  /* ---------- 対比カード ---------- */
+  .ba {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+    margin: 24px 0;
+  }
+  .ba .col {
+    border-radius: 12px;
+    padding: 24px 24px 20px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+  }
+  .ba .col.after { border-color: rgba(76,194,168,.4); background: linear-gradient(180deg, rgba(76,194,168,.06), var(--surface) 40%); }
+  .ba .col.before { border-color: rgba(240,162,75,.4); background: linear-gradient(180deg, rgba(240,162,75,.05), var(--surface) 40%); }
+  .ba .tag {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: .18em;
+    display: inline-block;
+    padding: 3px 12px;
+    border-radius: 20px;
+    margin-bottom: 14px;
+  }
+  .ba .before .tag { background: var(--amber-dim); color: var(--amber); }
+  .ba .after  .tag { background: var(--teal-dim); color: var(--teal); }
+  .ba h4 { font-size: 15.5px; margin-bottom: 10px; color: var(--text); }
+  .ba ul { margin-left: 1.2em; font-size: 13.5px; color: var(--text-muted); }
+  .ba li { margin-bottom: 8px; line-height: 1.7; }
+  .ba .metric {
+    margin-top: 16px;
+    padding-top: 14px;
+    border-top: 1px dashed var(--border);
+    font-family: var(--mono);
+    font-size: 13px;
+  }
+  .ba .before .metric { color: var(--amber); }
+  .ba .after  .metric { color: var(--teal); }
+
+  /* ---------- callout ---------- */
+  .callout {
+    border: 1px solid rgba(76,194,168,.35);
+    background: var(--teal-dim);
+    border-radius: 10px;
+    padding: 18px 22px;
+    margin: 24px 0;
+    font-size: 14.5px;
+    color: var(--text);
+  }
+  .callout .c-label {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: .2em;
+    color: var(--teal);
+    margin-bottom: 6px;
+  }
+  .callout.warn { border-color: rgba(232,120,138,.35); background: var(--rose-dim); }
+  .callout.warn .c-label { color: var(--rose); }
+
+  /* ---------- code blocks ---------- */
+  .codebox { margin: 18px 0 28px; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+  .codebox .cb-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--surface2);
+    border-bottom: 1px solid var(--border);
+    padding: 8px 16px;
+  }
+  .codebox .cb-title {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+  .codebox button.copy {
+    font-family: var(--mono);
+    font-size: 11px;
+    background: transparent;
+    border: 1px solid var(--border-strong);
+    color: var(--text-dim);
+    border-radius: 5px;
+    padding: 3px 12px;
+    cursor: pointer;
+    transition: color .15s, border-color .15s;
+  }
+  .codebox button.copy:hover { color: var(--teal); border-color: var(--teal); }
+  .codebox pre {
+    background: var(--bg-deep);
+    padding: 18px 20px;
+    overflow-x: auto;
+    font-family: var(--mono);
+    font-size: 12.8px;
+    line-height: 1.75;
+    color: #c3cede;
+  }
+  .codebox pre .cm { color: var(--text-dim); }
+  .codebox pre .hl { color: var(--teal); }
+
+  /* ---------- tables ---------- */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 18px 0 28px;
+    font-size: 13.5px;
+  }
+  th {
+    text-align: left;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: .1em;
+    color: var(--text-dim);
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border-strong);
+    white-space: nowrap;
+  }
+  td {
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-muted);
+    vertical-align: top;
+  }
+  td:first-child { color: var(--text); font-weight: 500; }
+  td code { font-family: var(--mono); font-size: .9em; color: var(--teal); }
+
+  /* ---------- takeaways ---------- */
+  .takeaways { counter-reset: tw; margin: 28px 0; }
+  .tw {
+    display: grid;
+    grid-template-columns: 56px 1fr;
+    gap: 20px;
+    padding: 24px 0;
+    border-top: 1px solid var(--border);
+  }
+  .tw:last-child { border-bottom: 1px solid var(--border); }
+  .tw::before {
+    counter-increment: tw;
+    content: '0' counter(tw);
+    font-family: var(--mono);
+    font-size: 26px;
+    color: var(--teal);
+    line-height: 1.2;
+  }
+  .tw h4 { font-size: 16px; margin-bottom: 6px; color: var(--text); }
+  .tw p { font-size: 13.5px; margin: 0; }
+
+  footer {
+    margin-top: 80px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    font-family: var(--mono);
+    font-size: 11.5px;
+    color: var(--text-dim);
+    letter-spacing: .06em;
+  }
+
+  /* ---------- reveal animation ---------- */
+  .reveal { opacity: 0; transform: translateY(14px); transition: opacity .6s ease, transform .6s ease; }
+  .reveal.in { opacity: 1; transform: none; }
+
+  /* ---------- responsive ---------- */
+  @media (max-width: 960px) {
+    nav.side { display: none; }
+    main { margin-left: 0; padding: 0 22px 80px; }
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    .ba { grid-template-columns: 1fr; }
+    .flow-node { grid-template-columns: 1fr; }
+    .flow-node .who { grid-row: auto; justify-self: start; margin-bottom: 6px; }
+    .flow-node .d { grid-column: 1; }
+    .flow-arrow { margin-left: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="side">
+  <div class="brand">DEV PROCESS</div>
+  <div class="brand-sub">Kindleハイライト7層分析と人生設計書</div>
+  <a href="#overview"><span class="n">01</span>つくったもの</a>
+  <a href="#flow"><span class="n">02</span>システム全体フロー</a>
+  <a href="#separation"><span class="n">03</span>機械抽出とLLM解釈の分離</a>
+  <a href="#phase0"><span class="n">04</span>人間の関与 — Phase 0</a>
+  <a href="#prompts"><span class="n">05</span>実際のプロンプト・ルール</a>
+  <a href="#handoff"><span class="n">06</span>運用の仕組み — HANDOFF</a>
+  <a href="#outputs"><span class="n">07</span>成果物の全体像</a>
+  <a href="#takeaways"><span class="n">08</span>まとめ・学び</a>
+  <div class="back">
+    <a href="ai-examples.html" style="margin-left:16px;">← AI活用事例一覧へ</a>
+  </div>
+</nav>
+
+<main>
+<div class="wrap">
+
+  <header class="hero">
+    <div class="kicker">AI DEVELOPMENT CASE STUDY</div>
+    <h1>74冊の読書メモを、<br><em>自分を映す7層のレポート</em>に。</h1>
+    <p class="lede">
+      Kindleに書き溜めた1,900件超のハイライトと手書きメモを、Python抽出 × Claude定性分析の分業で
+      「価値観パターン」「横断テーマ」「人生の指針」など7層の示唆ドキュメントに変換。
+      さらに日記データと照合し、半期ごとの「人生設計書」としてレポート化するワークフローの全記録です。
+    </p>
+    <div class="hero-links">
+      <a class="primary" href="kindle-demo.html">デモを見る（架空データ版）</a>
+      <a class="ghost" href="#prompts">プロンプトを見る ↓</a>
+    </div>
+    <div class="stats">
+      <div class="cell"><div class="num">74<span>冊+</span></div><div class="lbl">分析対象の書籍</div></div>
+      <div class="cell"><div class="num">1,906<span>件</span></div><div class="lbl">手書きメモ（ブロック）</div></div>
+      <div class="cell"><div class="num">2,209<span>声</span></div><div class="lbl">自由記述（自分の言葉）</div></div>
+      <div class="cell"><div class="num">7<span>層+統合</span></div><div class="lbl">示唆ドキュメント</div></div>
+    </div>
+  </header>
+
+  <!-- ============ 01 ============ -->
+  <section id="overview" class="reveal">
+    <div class="sec-label">SECTION 01</div>
+    <h2>つくったもの</h2>
+    <p>
+      読書のハイライトは溜まる一方で、半年後には何を読んだかも思い出せない——。
+      その「読んで終わり」を解消するため、Kindleの全ハイライト・手書きメモを構造化し、
+      <strong>7層の示唆ドキュメント</strong>（手書きメモ全集 / 価値観パターン分析 / 横断テーマ集 / 人生の指針 / ほか）として
+      Obsidianに出力するワークフローを構築しました。
+    </p>
+    <p>
+      さらにこの示唆と<strong>日記データ（月次レポート）を突き合わせ</strong>、
+      「本で宣言したことが実生活でどれだけ実行されたか」を照合する半期ごとの
+      <strong>統合レポート「人生設計書」</strong>を生成しています。
+    </p>
+    <div class="callout">
+      <div class="c-label">CONCEPT</div>
+      Kindleハイライトは「理想の自分」の設計図。日記は「実際に生きた自分」の実況記録。
+      <strong>両者を重ねて初めて、何が本物で何が幻想だったかが見える。</strong>
+    </div>
+  </section>
+
+  <!-- ============ 02 ============ -->
+  <section id="flow" class="reveal">
+    <div class="sec-label">SECTION 02</div>
+    <h2>システム全体フロー</h2>
+    <p>データの流れと担当の分離に注目してください。<strong>機械的な工程と解釈が必要な工程を明確に分けています</strong>。</p>
+
+    <div class="flow">
+      <div class="flow-node">
+        <span class="who human">人間</span>
+        <span class="t">Kindleで読書しながらハイライト+手書きメモ</span>
+        <span class="d">「学び」「肝に」「To Do」などの<strong>タグ付きメモ</strong>を読みながら書き込む。この積み重ね（74冊・1,906件）が全ての素材。</span>
+      </div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-node">
+        <span class="who infra">自動同期</span>
+        <span class="t">Obsidianプラグインで全ハイライトをMD化</span>
+        <span class="d">Kindle Highlights プラグインが書籍ごとのMDファイル（YAMLメタデータ+本文）を <code>kindle/highlight/</code> に自動同期。</span>
+      </div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-node">
+        <span class="who script">Python</span>
+        <span class="t">extract_notes.py で構造化抽出</span>
+        <span class="d">正規表現でハイライト本文とメモをペア抽出 → <code>annotations.json</code>。さらに自由記述（自分の言葉）だけを濃縮した <code>voice_only.md</code> を生成。<strong>LLMの解釈を混ぜない純粋な機械処理</strong>。</span>
+      </div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-node">
+        <span class="who human">人間</span>
+        <span class="t">Phase 0 — 現状確認（分析前の必須ステップ）</span>
+        <span class="d">メモには書いた時期の文脈がある。「今と状況が違うメモはあるか」を確認してから分析に入る（詳細はSECTION 04）。</span>
+      </div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-node">
+        <span class="who claude">Claude Code</span>
+        <span class="t">7層の定性分析ドキュメントを生成</span>
+        <span class="d"><code>voice_only.md</code>（約30K字）を読み、価値観の軸・葛藤・語彙のクセを抽出 → 横断テーマ比較 → 10指針+30日プランへ統合。出力はすべてObsidianのMD。</span>
+      </div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-node">
+        <span class="who claude">Claude Code</span>
+        <span class="t">日記×Kindleの統合レポート「人生設計書」</span>
+        <span class="d">日記の月次レポートと7層の示唆を照合し、「本での宣言 vs 実生活での実行」のスコアカードを含む半期レポートを生成。</span>
+      </div>
+    </div>
+    <div class="flow-legend">
+      <span class="lg-human">人間（読書・現状確認）</span>
+      <span class="lg-infra">自動同期（Obsidian）</span>
+      <span class="lg-script">Python（機械抽出）</span>
+      <span class="lg-claude">Claude Code（定性分析）</span>
+    </div>
+  </section>
+
+  <!-- ============ 03 ============ -->
+  <section id="separation" class="reveal">
+    <div class="sec-label">SECTION 03</div>
+    <h2>設計のキモ — 機械抽出とLLM解釈の分離</h2>
+    <p>
+      教材ジェネレーター（<a class="ext" href="process-materials-ds.html">別事例</a>）と共通する思想ですが、
+      このプロジェクトでは<strong>「数えられるものはPython、意味を読むのはClaude」</strong>という分離を最初に決めています。
+    </p>
+
+    <div class="ba">
+      <div class="col before">
+        <span class="tag">PHASE ① — PYTHON</span>
+        <h4>母集団の生成は純粋な機械処理</h4>
+        <ul>
+          <li>1,906ブロックを正規表現で抽出し、カテゴリ×書籍×タグで整理した「手書きメモ全集」を自動生成</li>
+          <li><strong>LLMの解釈を一切混ぜない</strong>のがルール。集計・分類だけを行う</li>
+          <li>新しい本が増えたらスクリプト再実行で全再生成できる（再現性）</li>
+        </ul>
+        <div class="metric">性質: 決定的・何度でも再実行可能</div>
+      </div>
+      <div class="col after">
+        <span class="tag">PHASE ②〜④ — CLAUDE</span>
+        <h4>解釈は「自分の声」だけを素材に</h4>
+        <ul>
+          <li>ハイライト（著者の言葉）は使わず、<strong>自由記述メモ（自分の言葉）2,209件だけ</strong>を濃縮した voice_only.md を読ませる</li>
+          <li>価値観の軸・葛藤・語彙の指紋を抽出し、横断テーマ→総合指針へ段階的に統合</li>
+          <li>プロンプトを調整しながら何度も対話する、泥臭い工程</li>
+        </ul>
+        <div class="metric">性質: 定性的・人間との対話で磨く</div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <div class="c-label">KEY INSIGHT</div>
+      著者の名言をいくら集めても「自分」は見えてこない。
+      <strong>ハイライトではなく、その横に書いた自分のメモこそが分析対象</strong>。
+      この切り分け（voice_only.md の生成）が、分析の質を決めた一番の設計判断でした。
+    </div>
+  </section>
+
+  <!-- ============ 04 ============ -->
+  <section id="phase0" class="reveal">
+    <div class="sec-label">SECTION 04</div>
+    <h2>人間の関与 — Phase 0「現状確認」</h2>
+    <p>
+      このワークフローで最も重要な人間の役割は、分析の前にあります。
+      読書メモは<strong>書いた時期の文脈</strong>を持っており、数年分を一括で分析すると
+      「当時の悩み」を「現在の課題」として扱ってしまう危険があるためです。
+    </p>
+    <ul class="plain">
+      <li>分析開始前に必ず「<strong>今と状況が違うメモはあるか</strong>」「仕事・住まい・家族などで最近大きく変わったことは」をユーザーに確認する</li>
+      <li>分析結果には「<strong>当時 vs 現在</strong>」を併記し、古い文脈の指針を現在に持ち込まない</li>
+      <li>状況が変わったら②④（価値観分析・指針）だけを差分更新する。過去の分析は消さず「時系列の注記」を追加する形で残す</li>
+    </ul>
+    <div class="callout warn">
+      <div class="c-label">LESSON</div>
+      AIは渡されたテキストを「現在の事実」として扱う。<strong>データの鮮度・文脈の管理は人間の仕事</strong>。
+      これを仕組み（Phase 0 の必須化・確認テンプレート）としてワークフローに組み込んでいます。
+    </div>
+  </section>
+
+  <!-- ============ 05 ============ -->
+  <section id="prompts" class="reveal">
+    <div class="sec-label">SECTION 05</div>
+    <h2>実際のプロンプト・ルール（全文）</h2>
+    <p>
+      指示はチャットに都度書くのではなく、<strong>HANDOFF ドキュメント（AIへの引き継ぎ書）</strong>として
+      ファイル化しています。その主要部分を掲載します（固有名詞のみ一般化）。
+    </p>
+
+    <h3>① Phase 2 で Claude に抽出させる項目（分析の設計図）</h3>
+    <div class="codebox">
+      <div class="cb-head"><span class="cb-title">HANDOFF-life-insights.md — Phase 2: 価値観パターン分析</span><button class="copy">copy</button></div>
+      <pre>voice_only.md（自由記述メモの濃縮版・約30K字）を Claude が全部読む
+
+→ 以下を Claude が抽出して書く：
+- **7つの軸**（自由・家族・行動・健康・内省・職業 など。データ次第で変動）
+- **6つの葛藤**（軸の対立として浮かぶ二項）
+- **語彙の指紋**（頻出表現とその意味）
+- **お守り本TOP10**（メモ件数順）
+- **結論：あなた像 1行サマリ**
+
+⚠️ 必ず「当時 vs 現在」を併記。Phase 0 でユーザーから聞いた現状変化を反映。</pre>
+    </div>
+
+    <h3>② やってはいけないこと（5箇条）</h3>
+    <div class="codebox">
+      <div class="cb-head"><span class="cb-title">HANDOFF-life-insights.md — 🚫 やってはいけないこと</span><button class="copy">copy</button></div>
+      <pre>1. <span class="hl">古い文脈のメモを現在の課題として書かない</span> — 過去の悩みは過去の文脈で扱う
+2. <span class="hl">Phase 1（機械生成）に LLM の解釈を混ぜない</span> — 純粋な抽出に留める
+3. <span class="hl">本のハイライト本文を Phase 2 の素材にしない</span> — 「自分の声」だけを使う。
+   voice_only.md を生成して、それを読む
+4. <span class="hl">メモリを読まずに開始しない</span> — 文脈がない状態で書くと、
+   過去の指針を繰り返すだけになる
+5. <span class="hl">新しいメモタグを勝手に追加しない</span> — タグ一覧は既存タグ＋家族分で運用。
+   追加するならユーザー確認</pre>
+    </div>
+
+    <h3>③ セッション開始時の確認テンプレート</h3>
+    <div class="codebox">
+      <div class="cb-head"><span class="cb-title">HANDOFF-life-insights.md — ユーザーへの最初のメッセージ</span><button class="copy">copy</button></div>
+      <pre>人生の示唆ドキュメントを更新します。まず現状確認を：
+
+1. 前回（XXXX-XX-XX）から変わったこと（仕事・住居・家族・健康など）はありますか？
+2. ハイライトメモのうち「今と状況が違うな」というカテゴリはありますか？
+3. 4ファイル全部更新 / ②④だけ更新 / ①の母集団だけ再生成、どれを希望しますか？</pre>
+    </div>
+
+    <h3>④ 抽出スクリプトの中核（extract_notes.py 抜粋）</h3>
+    <p>
+      ハイライト本文（<code class="inline">— location:</code> を含む行）とユーザーメモをブロック単位でペア抽出する部分です。
+      全コードは HANDOFF に埋め込まれており、<code class="inline">/tmp/</code> に置いて実行するだけで再現できます。
+    </p>
+    <div class="codebox">
+      <div class="cb-head"><span class="cb-title">extract_notes.py — パース部（抜粋）</span><button class="copy">copy</button></div>
+      <pre>HIGHLIGHT_RE = re.compile(r"^(.*?)\s+—\s+location:\s*\[")
+
+def parse_file(path):
+    text = path.read_text(encoding="utf-8")
+    <span class="cm"># YAMLメタデータから書名・著者を取得</span>
+    m = re.search(r"kindle-title:\s*(.+)", text)
+    ...
+    body = text.split("## Highlights", 1)[1]
+    blocks = re.split(r"\n---\n", body)   <span class="cm"># --- 区切りで1ブロック</span>
+    for block in blocks:
+        highlight, annotations = None, []
+        for line in lines:
+            mh = HIGHLIGHT_RE.match(line)
+            if mh:
+                highlight = mh.group(1).strip()   <span class="cm"># 著者のハイライト</span>
+            else:
+                annotations.append(line.strip())  <span class="cm"># 自分の手書きメモ</span>
+        if annotations:   <span class="cm"># メモ付きブロックだけを対象にする</span>
+            yield {"book": title, "category": path.parent.name,
+                   "highlight": highlight, "annotations": annotations}</pre>
+    </div>
+  </section>
+
+  <!-- ============ 06 ============ -->
+  <section id="handoff" class="reveal">
+    <div class="sec-label">SECTION 06</div>
+    <h2>運用の仕組み — HANDOFF ドキュメント</h2>
+    <p>
+      このワークフローの再現性を支えているのが <code class="inline">HANDOFF-life-insights.md</code>（563行）です。
+      冒頭にこう書いてあります：
+      <strong>「次のセッションのClaudeが、このファイル1つを読めば全工程を理解・再現できる。スクリプトコードも全部埋め込みなので、別ファイルを探さなくていい」</strong>。
+    </p>
+    <ul class="plain">
+      <li><strong>Pythonスクリプト3本を全文埋め込み</strong> — スクリプトは /tmp/ 実行で永続化せず、HANDOFFが唯一のソース</li>
+      <li><strong>Phase 0〜4 の手順・出力フォーマット規約・禁止事項</strong>を1ファイルに集約</li>
+      <li><strong>変更履歴</strong>を末尾に持ち、更新したら追記するルール</li>
+      <li>フォルダの <code class="inline">CLAUDE.md</code> には「この系統の依頼が来たら作業前に必ずHANDOFFを読むこと」とだけ書き、詳細はHANDOFFに委譲</li>
+    </ul>
+
+    <h3>差分更新の方針（ファイルごとに更新戦略を決めておく）</h3>
+    <table>
+      <thead><tr><th>ファイル</th><th>更新方針</th></tr></thead>
+      <tbody>
+        <tr><td>① 手書きメモ全集</td><td>新しい本・メモが増えたら<strong>スクリプト再実行で全再生成</strong></td></tr>
+        <tr><td>② 価値観パターン分析</td><td>状況変化があったら「当時 vs 現在」を<strong>追記</strong>（全書き直ししない）</td></tr>
+        <tr><td>③ 横断テーマ集</td><td><strong>基本不変</strong>（著者の見解は変わらない）。新しい本の追加時のみ追記</td></tr>
+        <tr><td>④ 総合・人生の指針</td><td>状況変化があったら古い指針を打ち消して<strong>新指針を追加</strong></td></tr>
+      </tbody>
+    </table>
+    <p>
+      「古い分析を消すと、過去の自分を再認識する価値が失われる」ため、<strong>消さずに注記を重ねる</strong>のが原則です。
+    </p>
+  </section>
+
+  <!-- ============ 07 ============ -->
+  <section id="outputs" class="reveal">
+    <div class="sec-label">SECTION 07</div>
+    <h2>成果物の全体像</h2>
+
+    <h3>タグ体系（読書中に書き込む手書きメモの分類）</h3>
+    <table>
+      <thead><tr><th>タグ</th><th>意味</th></tr></thead>
+      <tbody>
+        <tr><td>学び</td><td>知的に重要と判定した箇所</td></tr>
+        <tr><td>肝に</td><td>過去の失敗と紐付いた戒め</td></tr>
+        <tr><td>To Do</td><td>即実行を宣言した行動</td></tr>
+        <tr><td>気づき</td><td>盲点を突かれた瞬間</td></tr>
+        <tr><td>ハッとした</td><td>感情的な衝撃</td></tr>
+        <tr><td>家族タグ（3種）</td><td>娘・息子・母それぞれへの応用メモ</td></tr>
+      </tbody>
+    </table>
+
+    <h3>生成された示唆ドキュメント群（Obsidian内）</h3>
+    <table>
+      <thead><tr><th>ドキュメント</th><th>役割</th></tr></thead>
+      <tbody>
+        <tr><td>① 手書きメモ全集</td><td>母集団。1,906件をカテゴリ×書籍×タグで整理（機械生成）</td></tr>
+        <tr><td>② 価値観パターン分析</td><td>鏡。自分の軸・葛藤・語彙のクセ</td></tr>
+        <tr><td>③ 横断テーマ集</td><td>賢人会議。テーマ別に複数著者の見解を比較し自分のメモと照合</td></tr>
+        <tr><td>④ 総合・人生の指針</td><td>行動。10の指針＋30日プラン</td></tr>
+        <tr><td>⑤〜⑦ 発展分析</td><td>リマインダー＆未解決の問い / 時系列の人格変化 / 影の自己分析</td></tr>
+        <tr><td>カテゴリ別示唆 ×10</td><td>全11カテゴリをカバーする補完分析</td></tr>
+        <tr><td>書籍別レポート ×25</td><td>74冊すべての復習用まとめ＋示唆</td></tr>
+        <tr><td>統合レポート「人生設計書」</td><td>日記×Kindleの照合による半期レポート（実行スコアカード付き）</td></tr>
+      </tbody>
+    </table>
+    <p>
+      統合レポートの構成イメージは
+      <a class="ext" href="kindle-demo.html">デモ版（架空データ）</a>で確認できます。
+    </p>
+  </section>
+
+  <!-- ============ 08 ============ -->
+  <section id="takeaways" class="reveal">
+    <div class="sec-label">SECTION 08</div>
+    <h2>まとめ — 持ち帰れる3つの学び</h2>
+    <div class="takeaways">
+      <div class="tw">
+        <div>
+          <h4>数えられるものはPython、意味を読むのはLLM</h4>
+          <p>1,906件の抽出・集計をLLMにやらせるとコストも精度も悪い。機械処理と定性分析を最初に切り分けることで、再現性と分析の深さを両立できます（教材ジェネレーター事例と共通の思想）。</p>
+        </div>
+      </div>
+      <div class="tw">
+        <div>
+          <h4>分析対象は「著者の言葉」ではなく「自分の言葉」</h4>
+          <p>ハイライト全文ではなく、その横に書いた手書きメモだけを濃縮して渡す（voice_only.md）。素材の切り分けひとつで、出てくる分析が「本の要約」から「自分の鏡」に変わります。</p>
+        </div>
+      </div>
+      <div class="tw">
+        <div>
+          <h4>HANDOFF＝AIへの引き継ぎ書で再現性を担保する</h4>
+          <p>手順・スクリプト全文・禁止事項・確認テンプレートを1ファイルに集約しておけば、数ヶ月後の別セッションでも同じ品質で再実行できます。「AIとの作業の引き継ぎ書」を残すのは人間のチームと同じです。</p>
+        </div>
+      </div>
+    </div>
+    <p style="margin-top:28px;">
+      統合レポートのデモ → <a class="ext" href="kindle-demo.html">読書×日記 人生設計書（架空データ版）</a>
+      ／ 姉妹編 → <a class="ext" href="process-materials-ds.html">機械学習教材ジェネレーターの開発プロセス</a>
+    </p>
+  </section>
+
+  <footer>
+    DEV PROCESS — KINDLE HIGHLIGHTS × LIFE REPORT ／ SOURCE: HANDOFF-life-insights.md &amp; CLAUDE.md (2026-05 〜)
+  </footer>
+
+</div>
+</main>
+
+<script>
+  // copy buttons
+  document.querySelectorAll('.codebox').forEach(function (box) {
+    var btn = box.querySelector('button.copy');
+    var pre = box.querySelector('pre');
+    if (!btn || !pre) return;
+    btn.addEventListener('click', function () {
+      navigator.clipboard.writeText(pre.innerText).then(function () {
+        btn.textContent = 'copied!';
+        setTimeout(function () { btn.textContent = 'copy'; }, 1500);
+      });
+    });
+  });
+
+  // scroll reveal
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.06 });
+  document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
+</script>
+
+</body>
+</html>
